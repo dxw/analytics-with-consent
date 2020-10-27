@@ -2,4 +2,4 @@
 
 require __DIR__.'/../vendor.phar';
 
-return \Dxw\Iguana\Init::init(__DIR__, 'WordPressPlugin');
+return \Dxw\Iguana\Init::init(__DIR__, 'AnalyticsWithConsent');

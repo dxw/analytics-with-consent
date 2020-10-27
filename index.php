@@ -2,7 +2,7 @@
 /**
  * WordPress Plugin
  *
- * @package     WordPressPlugin
+ * @package     AnalyticsWithConsent
  * @author      dxw
  * @copyright   2020
  * @license     MIT
