@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<psalm>
+  <projectFiles>
+    <directory name="src"/>
+    <ignoreFiles>
+      <file name="vendor.phar"/>
+    </ignoreFiles>
+  </projectFiles>
+  <issueHandlers>
+    <!-- These three will be tripped constantly because WordPress -->
+    <UndefinedFunction errorLevel="suppress"/>
+    <UndefinedConstant errorLevel="suppress"/>
+    <UndefinedClass errorLevel="suppress"/>
+    <!-- Suppress the complaint about $registrar just in this file -->
+    <UndefinedGlobalVariable>
+      <errorLevel type="suppress">
+        <file name="src/di.php"/>
+      </errorLevel>
+    </UndefinedGlobalVariable>
+  </issueHandlers>
+</psalm>

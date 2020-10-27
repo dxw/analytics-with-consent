@@ -1,0 +1,23 @@
+name: Main tests
+
+on: push
+
+jobs:
+  kahlan:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: composer install --no-interaction
+      - run: vendor/bin/kahlan
+  psalm:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: composer install --no-interaction
+      - run: vendor/bin/psalm
+  php-cs-fixer:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: composer install --no-interaction
+      - run: vendor/bin/php-cs-fixer fix --dry-run -v --diff

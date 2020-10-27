@@ -1,0 +1,30 @@
+{
+    "name": "dxw/wordpress-plugin-template",
+    "homepage": "https://github.com/dxw/wordpress-plugin-template",
+    "type": "wordpress-plugin",
+    "version": "0.1.0",
+    "license": "MIT",
+    "config": {
+      "platform": {
+        "php": "7.4"
+      }
+    },
+    "autoload": {
+        "psr-4": {
+            "WordPressPlugin\\": "src/"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": "vendor/bin/phar-install"
+    },
+    "require-dev": {
+        "dxw/phar-install": "^1.1",
+        "dxw/php-cs-fixer-config": "^1.0",
+        "kahlan/kahlan": "^4.7",
+        "vimeo/psalm": "^3.16"
+    },
+    "require": {
+        "php": "^7.4",
+        "dxw/iguana": "^1.1"
+    }
+}
