@@ -2,7 +2,6 @@
     "name": "dxw/wordpress-plugin-template",
     "homepage": "https://github.com/dxw/wordpress-plugin-template",
     "type": "wordpress-plugin",
-    "version": "0.1.0",
     "license": "MIT",
     "config": {
       "platform": {
