@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Plugin
+ * Analytics with Consent
  *
  * @package     AnalyticsWithConsent
  * @author      dxw
@@ -8,9 +8,9 @@
  * @license     MIT
  *
  * @wordpress-plugin
- * Plugin Name: WordPress Plugin
- * Plugin URI: https://github.com/dxw/wordpress-plugin
- * Description: TODO
+ * Plugin Name: Analytics with Consent
+ * Plugin URI: https://github.com/dxw/analytics-with-consent
+ * Description: Google Analytics + CIVIC Cookie Control
  * Author: dxw
  * Version: 0.1.0
  * Network: True
