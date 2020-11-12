@@ -59,6 +59,32 @@ class Options implements \Dxw\Iguana\Registerable
                     'append' => '',
                     'maxlength' => '',
                 ],
+                [
+                    'key' => 'field_5fad0790934c6',
+                    'label' => 'Civic Cookie Control Product Type',
+                    'name' => 'civic_cookie_control_product_type',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'choices' => [
+                        'COMMUNITY' => 'Community',
+                        'PRO' => 'Pro',
+                        'PRO_MULTISITE' => 'Pro Multisite',
+                    ],
+                    'default_value' => false,
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 0,
+                    'return_format' => 'value',
+                    'ajax' => 0,
+                    'placeholder' => '',
+                ]
             ],
             'location' => [
                 [
