@@ -27,13 +27,13 @@ var config = {
                     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
     
-                ga('create', 'UA-XXXXX-Y', 'auto');
+                ga('create', cookieControlConfig.googleAnalyticsId, 'auto');
                 ga('send', 'pageview');
                 // End Google Analytics
             },
             onRevoke: function(){
                 // Disable Google Analytics
-                window['ga-disable-UA-XXXXX-Y'] = true;
+                window['ga-disable-' + cookieControlConfig.googleAnalyticsId] = true;
                 // End Google Analytics
             }
         }
