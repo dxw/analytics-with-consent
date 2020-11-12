@@ -42,3 +42,12 @@ jobs:
           php-version: ${{ matrix.php-versions }}
       - run: composer install --no-interaction
       - run: vendor/bin/php-cs-fixer fix --dry-run -v --diff
+  standardjs:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - run: yarn install --non-interactive
+      - run: yarn run standard
