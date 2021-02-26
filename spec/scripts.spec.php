@@ -14,7 +14,9 @@ describe(Scripts::class, function () {
     describe('->register()', function () {
         it('adds actions', function () {
             allow('add_action')->toBeCalled();
-            expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueScripts'])->once();
+            expect('add_action')->toBeCalled()->times(2);
+            expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueScripts']);
+            expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueStyles']);
             $this->scripts->register();
         });
     });
@@ -57,6 +59,17 @@ describe(Scripts::class, function () {
                     $this->scripts->enqueueScripts();
                 });
             });
+        });
+    });
+
+    describe('->enqueueStyles()', function () {
+        it('enqueues the plugin stylesheet', function () {
+            allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
+            allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/css/styles.css');
+            expect('plugins_url')->toBeCalled()->once()->with('/assets/css/styles.css', '/path/to/this/plugin');
+            allow('wp_enqueue_style')->toBeCalled();
+            expect('wp_enqueue_style')->toBeCalled()->once()->with('analytics-with-consent-styles', 'http://path/to/this/plugin/assets/css/styles.css');
+            $this->scripts->enqueueStyles();
         });
     });
 });

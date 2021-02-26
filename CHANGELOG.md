@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Accessible default styles for focus states on buttons & links in the cookie panel
+
 ## [0.1.0] - 2020-11-13
 
 - Initial release

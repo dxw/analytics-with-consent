@@ -7,6 +7,7 @@ class Scripts implements \Dxw\Iguana\Registerable
     public function register() : void
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
     }
 
     public function enqueueScripts() : void
@@ -23,5 +24,10 @@ class Scripts implements \Dxw\Iguana\Registerable
                 'googleAnalyticsId' => $googleAnalyticsId
             ]);
         }
+    }
+
+    public function enqueueStyles() : void
+    {
+        wp_enqueue_style('analytics-with-consent-styles', plugins_url('/assets/css/styles.css', dirname(__FILE__)));
     }
 }
