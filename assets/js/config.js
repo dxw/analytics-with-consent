@@ -16,6 +16,7 @@ var config = {
   position: 'LEFT',
   theme: 'DARK',
   subDomains: false,
+  toggleType: 'checkbox',
   optionalCookies: [
     {
       name: 'analytics',
