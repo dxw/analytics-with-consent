@@ -15,6 +15,7 @@ var config = {
   },
   position: 'LEFT',
   theme: 'DARK',
+  toggleType: cookieControlConfig.toggleType,
   subDomains: false,
   optionalCookies: [
     {

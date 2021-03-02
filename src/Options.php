@@ -84,6 +84,31 @@ class Options implements \Dxw\Iguana\Registerable
                     'return_format' => 'value',
                     'ajax' => 0,
                     'placeholder' => '',
+                ],
+                [
+                    'key' => 'field_b70a359741713',
+                    'label' => 'Cookie options toggle type',
+                    'name' => 'civic_cookie_control_toggle_type',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'choices' => [
+                        'slider' => 'Slider',
+                        'checkbox' => 'Checkbox'
+                    ],
+                    'default_value' => false,
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 0,
+                    'return_format' => 'value',
+                    'ajax' => 0,
+                    'placeholder' => '',
                 ]
             ],
             'location' => [
