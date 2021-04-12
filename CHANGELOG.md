@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2021-04-12
+
+### Added
+
+- Fix to remove `rem` font size on headings - some sites the headings were inheriting a much smaller size
+- Fix to overlapping header over pixel-based size custom appearance checkbox
+
 ## [0.2.1] - 2021-03-03
 
 ### Added
