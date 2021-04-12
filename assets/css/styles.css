@@ -115,13 +115,8 @@
     line-height: inherit !important;
 }
 
-#ccc-title, .ccc-title {
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
-}
-
 #ccc h3.optional-cookie-header {
-    padding: .5rem 0 1rem 3.8rem;
+    padding: .5rem 0 1rem 55px;
 }
 
 @media screen and (max-width:768px) {
