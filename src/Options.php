@@ -4,6 +4,24 @@ namespace AnalyticsWithConsent;
 
 class Options implements \Dxw\Iguana\Registerable
 {
+    private $defaults;
+
+    function __construct() {
+        $this->defaults = [
+            'title' => 'This site uses cookies to store information on your computer.',
+            'intro' => 'Some of these cookies are essential, while others help us to improve your experience by providing insights into how the site is being used.',
+            'necessaryDescription' => 'Necessary cookies enable core functionality such as page navigation and access to secure areas. The website cannot function properly without these cookies, and can only be disabled by changing your browser preferences.',
+            'analyticalDescription' => 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
+            'closeLabel' => 'Save and Close',
+            'acceptSettings' => 'Accept all cookies',
+            'rejectSettings' => 'Only accept necessary cookies'
+        ];
+    }
+
+    public function getDefault($key) {
+        return $this->defaults[$key] ?? null;
+    }
+
     public function register() : void
     {
         add_action('acf/init', [$this, 'acfInit']);
@@ -19,7 +37,7 @@ class Options implements \Dxw\Iguana\Registerable
 
         acf_add_local_field_group([
             'key' => 'group_5f986aaed3444',
-            'title' => 'Analytics with Consent',
+            'title' => 'Analytics with Consent: Main settings',
             'fields' => [
                 [
                     'key' => 'field_5f986ab76a819',
@@ -104,5 +122,164 @@ class Options implements \Dxw\Iguana\Registerable
             'active' => 1,
             'description' => '',
         ]);
+
+        acf_add_local_field_group([
+            'key' => 'group_5f986aaed3445',
+            'title' => 'Analytics with Consent: Customisation',
+            'fields' => [
+                [
+                    'key' => 'field_5f986ab76a820',
+                    'label' => 'Title',
+                    'name' => 'civic_cookie_control_title',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('title'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_5f986ab76a822',
+                    'label' => 'Intro',
+                    'name' => 'civic_cookie_control_intro',
+                    'type' => 'textarea',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('intro'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_5f986ab76a824',
+                    'label' => 'Necessary cookies decription',
+                    'name' => 'civic_cookie_control_necessaryDescription',
+                    'type' => 'textarea',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('necessaryDescription'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_5f986ab76a826',
+                    'label' => 'Analytical cookies description',
+                    'name' => 'civic_cookie_control_analyticalDescription',
+                    'type' => 'textarea',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('analyticalDescription'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_5f986ab76a828',
+                    'label' => 'Close button text',
+                    'name' => 'civic_cookie_control_closeLabel',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('closeLabel'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_5f986ab76a830',
+                    'label' => 'Accept all button text',
+                    'name' => 'civic_cookie_control_acceptSettings',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('acceptSettings'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_5f986ab76a832',
+                    'label' => 'Accept only necessary cookies button text',
+                    'name' => 'civic_cookie_control_rejectSettings',
+                    'type' => 'text',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => $this->getDefault('rejectSettings'),
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
+                    'maxlength' => '',
+                ],
+            ],
+            'location' => [
+                [
+                    [
+                        'param' => 'options_page',
+                        'operator' => '==',
+                        'value' => 'analytics-with-consent',
+                    ],
+                ],
+            ],
+            'menu_order' => 1,
+            'position' => 'normal',
+            'style' => 'default',
+            'label_placement' => 'top',
+            'instruction_placement' => 'label',
+            'hide_on_screen' => '',
+            'active' => 1,
+            'description' => '',
+        ]);
+
     }
 }
+

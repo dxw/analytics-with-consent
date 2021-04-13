@@ -6,9 +6,12 @@ var config = {
   closeStyle: 'button',
   initialState: 'open',
   text: {
-    closeLabel: 'Save and Close',
-    acceptSettings: 'Accept all cookies',
-    rejectSettings: 'Only accept necessary cookies'
+    title: cookieControlConfig.title,
+    intro: cookieControlConfig.intro,
+    necessaryDescription: cookieControlConfig.necessaryDescription,
+    closeLabel: cookieControlConfig.closeLabel,
+    acceptSettings: cookieControlConfig.acceptSettings,
+    rejectSettings: cookieControlConfig.rejectSettings
   },
   branding: {
     removeAbout: true
@@ -21,7 +24,7 @@ var config = {
     {
       name: 'analytics',
       label: 'Analytical Cookies',
-      description: 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
+      description: cookieControlConfig.analyticalDescription,
       cookies: ['_ga', '_gid', '_gat', '__utma', '__utmt', '__utmb', '__utmc', '__utmz', '__utmv'],
       onAccept: function () {
         // Add Google Analytics
