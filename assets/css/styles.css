@@ -34,6 +34,20 @@
     background-color: #333;
 }
 
+#ccc-dismiss-button {
+    background-color: transparent !important;
+}
+
+#ccc-dismiss-button span {
+    font-weight: 400 !important;
+    color: #fff !important;
+    background-color: transparent !important;
+}
+
+#ccc-dismiss-button:hover {
+    background-color: #171919 !important;
+}
+
 #ccc .ccc-content--light .ccc-notify-button:hover span,
 #ccc .ccc-content--light .ccc-notify-button:focus span,
 #ccc .ccc-content--dark .ccc-notify-button:hover span,
