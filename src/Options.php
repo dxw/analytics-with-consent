@@ -5,8 +5,10 @@ namespace AnalyticsWithConsent;
 class Options implements \Dxw\Iguana\Registerable
 {
     private $defaults;
+    private $fieldPrefix = 'civic_cookie_control_'; // for customisation options field names
 
-    function __construct() {
+    public function __construct()
+    {
         $this->defaults = [
             'title' => 'This site uses cookies to store information on your computer.',
             'intro' => 'Some of these cookies are essential, while others help us to improve your experience by providing insights into how the site is being used.',
@@ -18,8 +20,18 @@ class Options implements \Dxw\Iguana\Registerable
         ];
     }
 
-    public function getDefault($key) {
+    public function getDefault(string $key): ?string
+    {
         return $this->defaults[$key] ?? null;
+    }
+
+    // get customisation option handling field prefixes
+    public function getCustomisationOption(string $key): ?string
+    {
+        if (strpos($key, $this->fieldPrefix) === false) {
+            $key = ($this->fieldPrefix) . $key;
+        }
+        return get_field($key, 'option');
     }
 
     public function register() : void
@@ -130,7 +142,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a820',
                     'label' => 'Title',
-                    'name' => 'civic_cookie_control_title',
+                    'name' => $this->fieldPrefix.'title',
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
@@ -149,7 +161,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a822',
                     'label' => 'Intro',
-                    'name' => 'civic_cookie_control_intro',
+                    'name' => $this->fieldPrefix.'intro',
                     'type' => 'textarea',
                     'instructions' => '',
                     'required' => 0,
@@ -168,7 +180,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a824',
                     'label' => 'Necessary cookies decription',
-                    'name' => 'civic_cookie_control_necessaryDescription',
+                    'name' => $this->fieldPrefix.'necessaryDescription',
                     'type' => 'textarea',
                     'instructions' => '',
                     'required' => 0,
@@ -187,7 +199,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a826',
                     'label' => 'Analytical cookies description',
-                    'name' => 'civic_cookie_control_analyticalDescription',
+                    'name' => $this->fieldPrefix.'analyticalDescription',
                     'type' => 'textarea',
                     'instructions' => '',
                     'required' => 0,
@@ -206,7 +218,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a828',
                     'label' => 'Close button text',
-                    'name' => 'civic_cookie_control_closeLabel',
+                    'name' => $this->fieldPrefix.'closeLabel',
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
@@ -225,7 +237,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a830',
                     'label' => 'Accept all button text',
-                    'name' => 'civic_cookie_control_acceptSettings',
+                    'name' => $this->fieldPrefix.'acceptSettings',
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
@@ -244,7 +256,7 @@ class Options implements \Dxw\Iguana\Registerable
                 [
                     'key' => 'field_5f986ab76a832',
                     'label' => 'Accept only necessary cookies button text',
-                    'name' => 'civic_cookie_control_rejectSettings',
+                    'name' => $this->fieldPrefix.'rejectSettings',
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
@@ -279,7 +291,5 @@ class Options implements \Dxw\Iguana\Registerable
             'active' => 1,
             'description' => '',
         ]);
-
     }
 }
-
