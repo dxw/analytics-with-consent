@@ -19,7 +19,7 @@ class Scripts implements \Dxw\Iguana\Registerable
     
     /**
      * Resolves options to saved value or plugin defaults
-     * 
+     *
      * @param string[] $options
      */
     private function resolveOptions(array $options) : array
@@ -54,7 +54,7 @@ class Scripts implements \Dxw\Iguana\Registerable
                     'acceptSettings',
                     'rejectSettings'
                 ]
-            );            
+            );
             $options = array_merge($options, $customisations);
 
             // enqueue scripts with options

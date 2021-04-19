@@ -51,11 +51,20 @@ describe(Scripts::class, function () {
                             'analyticalDescription' => 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
                             'closeLabel' => 'Save and Close',
                             'acceptSettings' => 'Accept all cookies',
-                            'rejectSettings' => 'Only accept necessary cookies'                        
+                            'rejectSettings' => 'Only accept necessary cookies'
                         ];
 
                         allow('get_field')->toBeCalled()->andReturn(
-                            'an_api_key', 'a_product_type', 'a_ga_id',null,null,null,null,null,null,null
+                            'an_api_key',
+                            'a_product_type',
+                            'a_ga_id',
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
                         );
                         expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_api_key', 'option');
                         expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_product_type', 'option');
@@ -80,8 +89,8 @@ describe(Scripts::class, function () {
                         expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl']);
                         allow('wp_localize_script')->toBeCalled();
                         expect('wp_localize_script')->toBeCalled()->once()->with(
-                            'civicCookieControlConfig', 
-                            'cookieControlConfig', 
+                            'civicCookieControlConfig',
+                            'cookieControlConfig',
                             array_merge(
                                 [
                                     'apiKey' => 'an_api_key',
