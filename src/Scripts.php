@@ -4,21 +4,31 @@ namespace AnalyticsWithConsent;
 
 class Scripts implements \Dxw\Iguana\Registerable
 {
+    private $options;
+
+    public function __construct(\AnalyticsWithConsent\Options $options)
+    {
+        $this->options = $options;
+    }
+
     public function register() : void
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
     }
-
-    // resolves options to saved value or plugin defaults
-    private function resolveOptions($options) : array
+    
+    /**
+     * Resolves options to saved value or plugin defaults
+     * 
+     * @param string[] $options
+     */
+    private function resolveOptions(array $options) : array
     {
-        $pluginOptions = new \AnalyticsWithConsent\Options;
         $hash = [];
         foreach ($options as $option) {
             $hash[$option] =
-                $pluginOptions->getCustomisationOption($option)
-                ?? $pluginOptions->getDefault($option)
+                $this->options->getCustomisationOption($option)
+                ?? $this->options->getDefault($option)
                 ?? null;
         }
         return $hash;
@@ -44,7 +54,7 @@ class Scripts implements \Dxw\Iguana\Registerable
                     'acceptSettings',
                     'rejectSettings'
                 ]
-            );
+            );            
             $options = array_merge($options, $customisations);
 
             // enqueue scripts with options
