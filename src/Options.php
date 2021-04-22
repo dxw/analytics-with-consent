@@ -4,8 +4,10 @@ namespace AnalyticsWithConsent;
 
 class Options implements \Dxw\Iguana\Registerable
 {
-    private array $defaults;
-    private string $fieldPrefix = 'civic_cookie_control_'; // for customisation options field names
+    /** @var array */
+    private $defaults;
+    /** @var string */
+    private $fieldPrefix = 'civic_cookie_control_'; // for customisation options field names
 
     public function __construct()
     {
