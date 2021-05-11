@@ -33,7 +33,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 
     private function defaultConfig() : array
     {
-        return [
+        return apply_filters('awc_civic_cookie_control_config', [
             'apiKey' => get_field('civic_cookie_control_api_key', 'option'),
             'product' => get_field('civic_cookie_control_product_type', 'option'),
             'closeStyle' => 'button',
@@ -60,6 +60,6 @@ class Scripts implements \Dxw\Iguana\Registerable
                     'onRevoke' => "analyticsWithConsent.gaRevoke"
                 ]
             ]
-        ];
+        ]);
     }
 }
