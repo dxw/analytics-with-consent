@@ -1,50 +1,24 @@
-/* globals cookieControlConfig, ga, CookieControl */
+/* globals cookieControlConfig, CookieControl */
 
-var config = {
-  apiKey: cookieControlConfig.apiKey,
-  product: cookieControlConfig.productType,
-  closeStyle: 'button',
-  initialState: 'open',
-  text: {
-    closeLabel: 'Save and Close',
-    acceptSettings: 'Accept all cookies',
-    rejectSettings: 'Only accept necessary cookies'
-  },
-  branding: {
-    removeAbout: true
-  },
-  position: 'LEFT',
-  theme: 'DARK',
-  subDomains: false,
-  toggleType: 'checkbox',
-  optionalCookies: [
-    {
-      name: 'analytics',
-      label: 'Analytical Cookies',
-      description: 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
-      cookies: ['_ga', '_gid', '_gat', '__utma', '__utmt', '__utmb', '__utmc', '__utmz', '__utmv'],
-      onAccept: function () {
-        // Add Google Analytics
-        /* eslint-disable */
-        (function (i, s, o, g, r, a, m) {
-          i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-          }, i[r].l = 1 * new Date(); a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga')
+window.getFunctionFromString = function (string) {
+  var scope = window
+  var scopeSplit = string.split('.')
+  for (var i = 0; i < scopeSplit.length - 1; i++) {
+    scope = scope[scopeSplit[i]]
 
-        ga('create', cookieControlConfig.googleAnalyticsId, 'auto')
-        ga('send', 'pageview')
-        // End Google Analytics
-        /* eslint-enable */
-      },
-      onRevoke: function () {
-        // Disable Google Analytics
-        window['ga-disable-' + cookieControlConfig.googleAnalyticsId] = true
-        // End Google Analytics
-      }
-    }
-  ]
+    if (scope === undefined) return
+  }
+
+  return scope[scopeSplit[scopeSplit.length - 1]]
 }
 
-CookieControl.load(config)
+cookieControlConfig.optionalCookies.forEach(function (optionalCookie) {
+  if (optionalCookie.onAccept) {
+    optionalCookie.onAccept = window.getFunctionFromString(optionalCookie.onAccept)
+  }
+  if (optionalCookie.onRevoke) {
+    optionalCookie.onRevoke = window.getFunctionFromString(optionalCookie.onRevoke)
+  }
+})
+
+CookieControl.load(cookieControlConfig)
