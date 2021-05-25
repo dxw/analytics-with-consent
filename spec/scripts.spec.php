@@ -39,23 +39,28 @@ describe(Scripts::class, function () {
                 });
             });
             context('and Civic Product Type is set', function () {
-                it('enqueues the Civic Cookie Control script and the config script, and injects our settings', function () {
+                it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings, with the option to filter them', function () {
                     allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id');
-                    expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_api_key', 'option');
-                    expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_product_type', 'option');
+                    expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_api_key', 'option');
+                    expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_product_type', 'option');
                     expect('get_field')->toBeCalled()->once()->with('google_analytics_id', 'option');
                     allow('wp_enqueue_script')->toBeCalled();
                     expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
                     allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
-                    allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/js/config.js');
+                    allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/js/analytics.js', 'http://path/to/this/plugin/assets/js/config.js');
+                    expect('plugins_url')->toBeCalled()->once()->with('/assets/js/analytics.js', '/path/to/this/plugin');
+                    expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'http://path/to/this/plugin/assets/js/analytics.js', ['civicCookieControl']);
                     expect('plugins_url')->toBeCalled()->once()->with('/assets/js/config.js', '/path/to/this/plugin');
-                    expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl']);
+                    expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);
                     allow('wp_localize_script')->toBeCalled();
-                    expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'cookieControlConfig', [
-                        'apiKey' => 'an_api_key',
-                        'productType' => 'a_product_type',
+                    expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
                         'googleAnalyticsId' => 'a_ga_id'
                     ]);
+                    allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
+                        return $filteredData;
+                    });
+                    expect('apply_filters')->toBeCalled()->once()->with('awc_civic_cookie_control_config', \Kahlan\Arg::toBeAn('array'));
+                    expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'cookieControlConfig', \Kahlan\Arg::toBeAn('array'));
                     $this->scripts->enqueueScripts();
                 });
             });
