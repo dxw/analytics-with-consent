@@ -65,7 +65,8 @@ describe(Scripts::class, function () {
                             "track_events" => true
                         ]
                     ];
-                    $wp_localize_script_params[1] = $this->scripts->defaultConfig();
+                    //$wp_localize_script_params[1] = $this->scripts->defaultConfig();
+                    $wp_localize_script_params[1] = \Kahlan\Arg::toBeAn('array');
                     expect('wp_localize_script')->toBeCalled()->times(2)->with($wp_localize_script_params);
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
                         return $filteredData;
