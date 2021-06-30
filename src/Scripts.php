@@ -7,7 +7,7 @@ class Scripts implements \Dxw\Iguana\Registerable
     public function register() : void
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);        
     }
 
     public function enqueueScripts() : void
@@ -15,6 +15,7 @@ class Scripts implements \Dxw\Iguana\Registerable
         $apiKey = get_field('civic_cookie_control_api_key', 'option');
         $productType = get_field('civic_cookie_control_product_type', 'option');
         $googleAnalyticsId = get_field('google_analytics_id', 'option');
+        include_once('wp-includes\option.php'); // needed for tests
         $siteurl = get_site_url();
         $track_events_option = get_field('track_events', 'option');
         $track_events = isset($track_events_option[0]) && $track_events_option[0] == '1';

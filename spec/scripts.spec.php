@@ -58,7 +58,7 @@ describe(Scripts::class, function () {
                     expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
                         'googleAnalyticsId' => 'a_ga_id',
                         'siteurl' => 'https://www.example.com',
-                        'track_events' => '1'
+                        'track_events' => true
                     ]);
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
                         return $filteredData;
