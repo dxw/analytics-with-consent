@@ -15,7 +15,7 @@ class Scripts implements \Dxw\Iguana\Registerable
         $apiKey = get_field('civic_cookie_control_api_key', 'option');
         $productType = get_field('civic_cookie_control_product_type', 'option');
         $googleAnalyticsId = get_field('google_analytics_id', 'option');
-        $domain = (parse_url(home_url()))['host'];
+        $siteurl = get_site_url();        
         $track_events_option = get_field('track_events', 'option');
         $track_events = isset($track_events_option[0]) && $track_events_option[0] == '1';
         if ($apiKey && $productType) {
@@ -23,7 +23,7 @@ class Scripts implements \Dxw\Iguana\Registerable
             wp_enqueue_script('civicCookieControlDefaultAnalytics', plugins_url('/assets/js/analytics.js', dirname(__FILE__)), ['civicCookieControl']);
             wp_localize_script('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
                 'googleAnalyticsId' => $googleAnalyticsId,
-                'domain' => $domain,
+                'siteurl' => $siteurl,
                 'track_events' => $track_events
             ]);
             wp_enqueue_script('civicCookieControlConfig', plugins_url('/assets/js/config.js', dirname(__FILE__)), ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);

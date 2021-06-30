@@ -36,8 +36,7 @@ var analyticsWithConsent = {
         target = this.getAttribute('target').toLowerCase();
       }
       if (link.indexOf('http') !== -1) {
-        let linkcontent = link.substring(link.indexOf('//')+2);
-        if (linkcontent.indexOf(cookieControlDefaultAnalytics.domain) !== 0) {
+        if (link.indexOf(cookieControlDefaultAnalytics.siteurl) !== 0) {
           isOutbound = true;
         }
       }
