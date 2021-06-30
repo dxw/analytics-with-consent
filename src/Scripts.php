@@ -15,7 +15,7 @@ class Scripts implements \Dxw\Iguana\Registerable
         $apiKey = get_field('civic_cookie_control_api_key', 'option');
         $productType = get_field('civic_cookie_control_product_type', 'option');
         $googleAnalyticsId = get_field('google_analytics_id', 'option');
-        $domain = $_SERVER['HTTP_HOST'];
+        $domain = (parse_url(home_url()))['host'];
         $track_events_option = get_field('track_events', 'option');
         $track_events = isset($track_events_option[0]) && $track_events_option[0] == '1';
         if ($apiKey && $productType) {
