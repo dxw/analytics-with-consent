@@ -84,6 +84,31 @@ class Options implements \Dxw\Iguana\Registerable
                     'return_format' => 'value',
                     'ajax' => 0,
                     'placeholder' => '',
+                ],
+                [
+                    'key' => 'field_5fad0790934c7',
+                    'label' => 'Track Events',
+                    'name' => 'track_events',
+                    'type' => 'checkbox',
+                    'instructions' => 'Whether to also track events (if user consents to analytics)',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'choices' => [
+                        '1' => 'Allow'
+                    ],
+                    'layout' => 'vertical',
+                    'default_value' => 0,
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 0,
+                    'return_format' => 'value',
+                    'ajax' => 0,
+                    'placeholder' => '',
                 ]
             ],
             'location' => [
