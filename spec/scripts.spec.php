@@ -55,11 +55,18 @@ describe(Scripts::class, function () {
                     expect('plugins_url')->toBeCalled()->once()->with('/assets/js/config.js', '/path/to/this/plugin');
                     expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);
                     allow('wp_localize_script')->toBeCalled();
-                    expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
-                        'googleAnalyticsId' => 'a_ga_id',
-                        'siteurl' => 'https://www.example.com',
-                        'track_events' => true
-                    ]);
+                    $wp_localize_script_params = [];
+                    $wp_localize_script_params[0] = [
+                        "civicCookieControlDefaultAnalytics",
+                         "cookieControlDefaultAnalytics",
+                        [
+                            "googleAnalyticsId" => "a_ga_id",
+                            "siteurl" => "https://www.example.com'",
+                            "track_events" => true
+                        ]
+                    ];
+                    $wp_localize_script_params[1] = $this->scripts->defaultConfig();
+                    expect('wp_localize_script')->toBeCalled()->times(2)->with($wp_localize_script_params);
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
                         return $filteredData;
                     });
