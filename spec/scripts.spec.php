@@ -41,6 +41,7 @@ describe(Scripts::class, function () {
             context('and Civic Product Type is set', function () {
                 it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings, with the option to filter them', function () {
                     allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', [0 => '1']);
+                    allow('get_site_url')->toBeCalled()->andReturn('https://www.example.com');
                     expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_api_key', 'option');
                     expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_product_type', 'option');
                     expect('get_field')->toBeCalled()->once()->with('google_analytics_id', 'option');
@@ -56,7 +57,7 @@ describe(Scripts::class, function () {
                     allow('wp_localize_script')->toBeCalled();
                     expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
                         'googleAnalyticsId' => 'a_ga_id',
-                        'siteurl' => get_site_url(),
+                        'siteurl' => 'https://www.example.com',
                         'track_events' => '1'
                     ]);
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
