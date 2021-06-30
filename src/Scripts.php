@@ -67,4 +67,9 @@ class Scripts implements \Dxw\Iguana\Registerable
             ]
         ]);
     }
+
+    public function getDefaultConfig() : array
+    {
+        return $this->defaultConfig();
+    }
 }

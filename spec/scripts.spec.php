@@ -71,7 +71,7 @@ describe(Scripts::class, function () {
                         [
                             'civicCookieControlConfig', 
                             'cookieControlConfig', 
-                            \Kahlan\Arg::toBeAn('array')
+                            $this->scripts->getDefaultConfig()
                         ]
                     );
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
