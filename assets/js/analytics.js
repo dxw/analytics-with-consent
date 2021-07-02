@@ -12,16 +12,30 @@ var analyticsWithConsent = {
   
     ga('create', cookieControlDefaultAnalytics.googleAnalyticsId, 'auto')
     ga('send', 'pageview')
-    if (cookieControlDefaultAnalytics.track_events) {
+    //let trackEvents = cookieControlDefaultAnalytics.track_events;
+    // HACK
+    let trackEvents = true;
+    if (trackEvents) {
       window.analyticsWithConsent.gaAddEvents();
     }
     // End Google Analytics   
   },
-  gaAddEvents: function() {
+  gaAddEvents: function() {    
     window.analyticsWithConsent.gaAddOutboundEvents();
     window.analyticsWithConsent.gaAddDownloadEvents();
   },
-  gaAddOutboundEvents: function() {
+  gaAddOutboundEvents: function() {    
+
+    // HACK get domain via JS (from civicCookieControlDefaultAnalytics-js src)
+    // e.g. <script type='text/javascript' src='http://localhost/servicetransformation/wp-content/plugins/analytics-with-consent/assets/js/analytics.js?ver=5.7.2' id='civicCookieControlDefaultAnalytics-js'></script>
+    function getSiteUrl() {
+      let alink = document.getElementsByTagName('link')[0].href;
+      let siteurl = alink.substr(0, alink.indexOf('/wp-content'));
+      return siteurl;
+    }
+    //let siteurl = cookieControlDefaultAnalytics.siteurl;
+    let siteurl = getSiteUrl();    
+
     // check links
     $('a[href]').each(function() {
       // check if outbound (to another domain)
@@ -35,13 +49,15 @@ var analyticsWithConsent = {
       if (this.hasAttribute('target')) {
         target = this.getAttribute('target').toLowerCase();
       }
+
       if (link.indexOf('http') !== -1) {
-        if (link.indexOf(cookieControlDefaultAnalytics.siteurl) !== 0) {
+        if (link.indexOf(siteurl) !== 0) {
           isOutbound = true;
         }
       }
       // if outbound, add ga event
       if (isOutbound) {
+        console.log(link);
         this.onclick = function() {
           let label = fulllink;
           ga('send', 'event', 'outbound-link', fulllink, label, 0,

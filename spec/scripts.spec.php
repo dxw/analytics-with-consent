@@ -38,10 +38,6 @@ describe(Scripts::class, function () {
                     $this->scripts->enqueueScripts();
                 });
             });
-            function get_site_url()
-            {
-                return "https://www.example.com'";
-            }
             context('and Civic Product Type is set', function () {
                 it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings, with the option to filter them', function () {
                     allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id');
