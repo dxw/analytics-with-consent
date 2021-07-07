@@ -61,7 +61,6 @@ describe(Scripts::class, function () {
                     allow('wp_localize_script')->toBeCalled();
                     expect('wp_localize_script')->toBeCalled()->times(2)->with(
                         [
-                        0 => [
                             0 => "civicCookieControlDefaultAnalytics",
                             1 => "cookieControlDefaultAnalytics",
                             2 => [
@@ -70,7 +69,7 @@ describe(Scripts::class, function () {
                                 "siteurl" => "https://www.example.com'"
                             ]
                         ],
-                        1 => [
+                        [
                             0 => "civicCookieControlConfig",
                             1 => "cookieControlConfig",
                             2 => [
@@ -112,7 +111,6 @@ describe(Scripts::class, function () {
                                 ]
                             ]
                         ]
-                    ]
                     );
                     // expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
                     //     'googleAnalyticsId' => 'a_ga_id',
