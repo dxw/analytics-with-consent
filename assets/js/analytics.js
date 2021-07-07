@@ -14,9 +14,8 @@ var analyticsWithConsent = {
     ga('send', 'pageview')
     let trackEvents
     trackEvents = cookieControlDefaultAnalytics.track_events;
-    alert(trackEvents);
     // HACK
-    trackEvents = true;
+    // trackEvents = true;
     if (trackEvents) {
       window.analyticsWithConsent.gaAddEvents();
     }
@@ -28,15 +27,15 @@ var analyticsWithConsent = {
   },
   gaAddOutboundEvents: function() {    
 
-    // HACK get domain via JS (from civicCookieControlDefaultAnalytics-js src)
+    // HACK option get domain via JS (from civicCookieControlDefaultAnalytics-js src)
     // e.g. <script type='text/javascript' src='http://localhost/servicetransformation/wp-content/plugins/analytics-with-consent/assets/js/analytics.js?ver=5.7.2' id='civicCookieControlDefaultAnalytics-js'></script>
     function getSiteUrl() {
       let alink = document.getElementsByTagName('link')[0].href;
       let siteurl = alink.substr(0, alink.indexOf('/wp-content'));
       return siteurl;
     }
-    //let siteurl = cookieControlDefaultAnalytics.siteurl;
-    let siteurl = getSiteUrl();    
+    let siteurl = cookieControlDefaultAnalytics.siteurl;
+    //let siteurl = getSiteUrl();    
 
     // check links
     $('a[href]').each(function() {
@@ -58,8 +57,7 @@ var analyticsWithConsent = {
         }
       }
       // if outbound, add ga event
-      if (isOutbound) {
-        console.log(link);
+      if (isOutbound) {        
         this.onclick = function() {
           let label = fulllink;
           ga('send', 'event', 'outbound-link', fulllink, label, 0,

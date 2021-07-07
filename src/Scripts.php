@@ -20,12 +20,14 @@ class Scripts implements \Dxw\Iguana\Registerable
         if (!$track_events) {
             $track_events = true;
         }
+        $siteurl = get_site_url();
         if ($apiKey && $productType) {
             wp_enqueue_script('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
             wp_enqueue_script('civicCookieControlDefaultAnalytics', plugins_url('/assets/js/analytics.js', dirname(__FILE__)), ['civicCookieControl']);
             wp_localize_script('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
                 'googleAnalyticsId' => $googleAnalyticsId,
-                'track_events' => $track_events
+                'track_events' => $track_events,
+                'siteurl' => $siteurl
             ]);
             wp_enqueue_script('civicCookieControlConfig', plugins_url('/assets/js/config.js', dirname(__FILE__)), ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);
             wp_localize_script('civicCookieControlConfig', 'cookieControlConfig', $this->defaultConfig());
