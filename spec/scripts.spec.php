@@ -59,16 +59,71 @@ describe(Scripts::class, function () {
                     expect('plugins_url')->toBeCalled()->once()->with('/assets/js/config.js', '/path/to/this/plugin');
                     expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);
                     allow('wp_localize_script')->toBeCalled();
-                    expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
-                        'googleAnalyticsId' => 'a_ga_id',
-                        'track_events' => 'true',
-                        'siteurl' => 'https://www.example.com'
-                    ]);
+                    expect('wp_localize_script')->toBeCalled()->twice()->with(
+                        [
+                        0 => [
+                            0 => "civicCookieControlDefaultAnalytics",
+                            1 => "cookieControlDefaultAnalytics",
+                            2 => [
+                                "googleAnalyticsId" => "a_ga_id",
+                                "track_events" => true,
+                                "siteurl" => "https://www.example.com'"
+                            ]
+                        ],
+                        1 => [
+                            0 => "civicCookieControlConfig",
+                            1 => "cookieControlConfig",
+                            2 => [
+                                "apiKey" => "https://www.example.com",
+                                "product" => "https://www.example.com",
+                                "closeStyle" => "button",
+                                "initialState" => "open",
+                                "text" => [
+                                    "closeLabel" => "Save and Close",
+                                    "acceptSettings" => "Accept all cookies",
+                                    "rejectSettings" => "Only accept necessary cookies"
+                                ],
+                                "branding" => [
+                                    "removeAbout" => true
+                                ],
+                                "position" => "LEFT",
+                                "theme" => "DARK",
+                                "subDomains" => false,
+                                "toggleType" => "checkbox",
+                                "optionalCookies" => [
+                                    0 => [
+                                        "name" => "analytics",
+                                        "label" => "Analytical Cookies",
+                                        "description" => "Analytical cookies help us to improve our website by collecting and reporting information on its usage.",
+                                        "cookies" => [
+                                            0 => "_ga",
+                                            1 => "_gid",
+                                            2 => "_gat",
+                                            3 => "__utma",
+                                            4 => "__utmt",
+                                            5 => "__utmb",
+                                            6 => "__utmc",
+                                            7 => "__utmz",
+                                            8 => "__utmv"
+                                        ],
+                                        "onAccept" => "analyticsWithConsent.gaAccept",
+                                        "onRevoke" => "analyticsWithConsent.gaRevoke"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                    );
+                    // expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
+                    //     'googleAnalyticsId' => 'a_ga_id',
+                    //     'track_events' => 'true',
+                    //     'siteurl' => 'https://www.example.com'
+                    // ]);
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
                         return $filteredData;
                     });
                     expect('apply_filters')->toBeCalled()->once()->with('awc_civic_cookie_control_config', \Kahlan\Arg::toBeAn('array'));
-                    expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'cookieControlConfig', \Kahlan\Arg::toBeAn('array'));
+                    //expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'cookieControlConfig', \Kahlan\Arg::toBeAn('array'));
                     $this->scripts->enqueueScripts();
                 });
             });
