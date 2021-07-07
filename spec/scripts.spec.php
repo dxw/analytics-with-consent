@@ -59,7 +59,7 @@ describe(Scripts::class, function () {
                     expect('plugins_url')->toBeCalled()->once()->with('/assets/js/config.js', '/path/to/this/plugin');
                     expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);
                     allow('wp_localize_script')->toBeCalled();
-                    expect('wp_localize_script')->toBeCalled()->twice()->with(
+                    expect('wp_localize_script')->toBeCalled()->times(2)->with(
                         [
                         0 => [
                             0 => "civicCookieControlDefaultAnalytics",
