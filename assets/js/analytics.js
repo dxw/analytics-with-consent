@@ -12,9 +12,11 @@ var analyticsWithConsent = {
   
     ga('create', cookieControlDefaultAnalytics.googleAnalyticsId, 'auto')
     ga('send', 'pageview')
-    //let trackEvents = cookieControlDefaultAnalytics.track_events;
+    let trackEvents
+    trackEvents = cookieControlDefaultAnalytics.track_events;
+    alert(trackEvents);
     // HACK
-    let trackEvents = true;
+    trackEvents = true;
     if (trackEvents) {
       window.analyticsWithConsent.gaAddEvents();
     }
