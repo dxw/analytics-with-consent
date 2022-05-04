@@ -5,7 +5,7 @@
     "license": "MIT",
     "config": {
       "platform": {
-        "php": "7.2"
+        "php": "7.4"
       }
     },
     "autoload": {
@@ -23,7 +23,7 @@
         "vimeo/psalm": "^3.16"
     },
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "dxw/iguana": "^1.1"
     }
 }

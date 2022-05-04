@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Google Analytics 4 functionality
 
+### Removed
+
+- Support for PHP versions below 7.4
+
 ## [1.0.0] - 2021-05-25
 
 ### Added
