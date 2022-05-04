@@ -1,4 +1,4 @@
-/* globals cookieControlDefaultAnalytics */
+/* globals cookieControlDefaultAnalytics, gtag */
 /* eslint-disable */
 var analyticsWithConsent = {
   gaAccept: function () {
@@ -25,3 +25,16 @@ var analyticsWithConsent = {
   }
 }
 /* eslint-enable */
+window.addEventListener('DOMContentLoaded', function () {
+  var gtagScript = document.getElementById('awc_gtag')
+  if (gtagScript) {
+    gtagScript.onload = function () {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied'
+        })
+      }
+    }
+  }
+})
