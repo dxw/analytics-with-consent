@@ -41,7 +41,6 @@ class Scripts implements \Dxw\Iguana\Registerable
         $ga4Id = get_field('ga_4_id', 'option');
         if ($apiKey && $productType && $ga4Id) {
             printf('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=%s"></script>', esc_attr($ga4Id));
-            echo "<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}</script>";
         }
     }
 

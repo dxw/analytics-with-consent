@@ -126,7 +126,7 @@ describe(Scripts::class, function () {
                 $this->scripts->addGA4();
                 $result = ob_get_clean();
 
-                expect($result)->toEqual('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=123456"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}</script>');
+                expect($result)->toEqual('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=123456"></script>');
             });
         });
     });

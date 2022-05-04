@@ -1,4 +1,4 @@
-/* globals cookieControlDefaultAnalytics, gtag */
+/* globals cookieControlDefaultAnalytics */
 /* eslint-disable */
 var analyticsWithConsent = {
   gaAccept: function () {
@@ -38,19 +38,14 @@ var analyticsWithConsent = {
     // End GA4
   }
 }
-/* eslint-enable */
-window.addEventListener('DOMContentLoaded', function () {
-  var gtagScript = document.getElementById('awc_gtag')
-  if (gtagScript) {
-    gtagScript.onload = function () {
-      if (typeof gtag === 'function') {
-        gtag('consent', 'default', {
-          'ad_storage': 'denied',
-          'analytics_storage': 'denied'
-        })
-        gtag('js', new Date())
-        gtag('config', cookieControlDefaultAnalytics.ga4Id)
-      }
-    }
-  }
+var gtag = function () { dataLayer.push(arguments) }
+window.dataLayer = window.dataLayer || []    
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'analytics_storage': 'denied'
 })
+/* eslint-enable */
+if (cookieControlDefaultAnalytics.ga4Id !== '') {
+  gtag('js', new Date())
+  gtag('config', cookieControlDefaultAnalytics.ga4Id)
+}
