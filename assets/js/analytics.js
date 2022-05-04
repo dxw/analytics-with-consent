@@ -48,6 +48,8 @@ window.addEventListener('DOMContentLoaded', function () {
           'ad_storage': 'denied',
           'analytics_storage': 'denied'
         })
+        gtag('js', new Date())
+        gtag('config', cookieControlDefaultAnalytics.ga4Id)
       }
     }
   }
