@@ -14,9 +14,10 @@ describe(Scripts::class, function () {
     describe('->register()', function () {
         it('adds actions', function () {
             allow('add_action')->toBeCalled();
-            expect('add_action')->toBeCalled()->times(2);
+            expect('add_action')->toBeCalled()->times(3);
             expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueScripts']);
             expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueStyles']);
+            expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGA4']);
             $this->scripts->register();
         });
     });
@@ -77,6 +78,56 @@ describe(Scripts::class, function () {
             allow('wp_enqueue_style')->toBeCalled();
             expect('wp_enqueue_style')->toBeCalled()->once()->with('analytics-with-consent-styles', 'http://path/to/this/plugin/assets/css/styles.css');
             $this->scripts->enqueueStyles();
+        });
+    });
+
+    describe('->addGA4()', function () {
+        context('API Key is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_ga4_id');
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('product type is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_ga4_id');
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('GA4 ID is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('API Key, product type and GA4 ID are set', function () {
+            it('outputs the GA4 script tag', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
+                allow('esc_attr')->toBeCalled()->andRun(function ($input) {
+                    return $input;
+                });
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('<script async src="https://www.googletagmanager.com/gtag/js?id=123456"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}</script>');
+            });
         });
     });
 });

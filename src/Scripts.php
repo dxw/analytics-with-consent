@@ -8,6 +8,7 @@ class Scripts implements \Dxw\Iguana\Registerable
     {
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
+        add_action('wp_head', [$this, 'addGA4']);
     }
 
     public function enqueueScripts() : void
@@ -31,6 +32,17 @@ class Scripts implements \Dxw\Iguana\Registerable
     public function enqueueStyles() : void
     {
         wp_enqueue_style('analytics-with-consent-styles', plugins_url('/assets/css/styles.css', dirname(__FILE__)));
+    }
+
+    public function addGA4() : void
+    {
+        $apiKey = get_field('civic_cookie_control_api_key', 'option');
+        $productType = get_field('civic_cookie_control_product_type', 'option');
+        $ga4Id = get_field('ga_4_id', 'option');
+        if ($apiKey && $productType && $ga4Id) {
+            printf('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>', esc_attr($ga4Id));
+            echo "<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}</script>";
+        }
     }
 
     private function defaultConfig() : array
