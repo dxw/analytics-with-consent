@@ -15,6 +15,13 @@ var analyticsWithConsent = {
       ga('send', 'pageview')        
     }   
     // End Google Analytics (UA)
+    // Add GA4
+    if (cookieControlDefaultAnalytics.ga4Id !== '') {
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+      });
+    }
+    // End GA4
   },
   gaRevoke: function () {
     // Disable Google Analytics (UA)
@@ -22,6 +29,13 @@ var analyticsWithConsent = {
       window['ga-disable-' + cookieControlDefaultAnalytics.googleAnalyticsId] = true
     }
     // End Google Analytics (UA)
+    // Disable GA4
+    if (cookieControlDefaultAnalytics.ga4Id !== '') {
+      gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
+    }
+    // End GA4
   }
 }
 /* eslint-enable */
