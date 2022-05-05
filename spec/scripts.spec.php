@@ -14,9 +14,10 @@ describe(Scripts::class, function () {
     describe('->register()', function () {
         it('adds actions', function () {
             allow('add_action')->toBeCalled();
-            expect('add_action')->toBeCalled()->times(2);
+            expect('add_action')->toBeCalled()->times(3);
             expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueScripts']);
             expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueStyles']);
+            expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGA4']);
             $this->scripts->register();
         });
     });
@@ -40,10 +41,11 @@ describe(Scripts::class, function () {
             });
             context('and Civic Product Type is set', function () {
                 it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings, with the option to filter them', function () {
-                    allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id');
+                    allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id');
                     expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_api_key', 'option');
                     expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_product_type', 'option');
                     expect('get_field')->toBeCalled()->once()->with('google_analytics_id', 'option');
+                    expect('get_field')->toBeCalled()->once()->with('ga_4_id', 'option');
                     allow('wp_enqueue_script')->toBeCalled();
                     expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
                     allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
@@ -54,7 +56,8 @@ describe(Scripts::class, function () {
                     expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControlConfig', 'http://path/to/this/plugin/assets/js/config.js', ['civicCookieControl', 'civicCookieControlDefaultAnalytics']);
                     allow('wp_localize_script')->toBeCalled();
                     expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
-                        'googleAnalyticsId' => 'a_ga_id'
+                        'googleAnalyticsId' => 'a_ga_id',
+                        'ga4Id' => 'a_ga4_id'
                     ]);
                     allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
                         return $filteredData;
@@ -75,6 +78,56 @@ describe(Scripts::class, function () {
             allow('wp_enqueue_style')->toBeCalled();
             expect('wp_enqueue_style')->toBeCalled()->once()->with('analytics-with-consent-styles', 'http://path/to/this/plugin/assets/css/styles.css');
             $this->scripts->enqueueStyles();
+        });
+    });
+
+    describe('->addGA4()', function () {
+        context('API Key is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_ga4_id');
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('product type is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_ga4_id');
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('GA4 ID is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('API Key, product type and GA4 ID are set', function () {
+            it('outputs the GA4 script tag', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
+                allow('esc_attr')->toBeCalled()->andRun(function ($input) {
+                    return $input;
+                });
+                
+                ob_start();
+                $this->scripts->addGA4();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=123456"></script>');
+            });
         });
     });
 });
