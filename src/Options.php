@@ -64,7 +64,7 @@ class Options implements \Dxw\Iguana\Registerable
                     'label' => 'Google Analytics GTM',
                     'name' => 'google_analytics_gtm',
                     'type' => 'text',
-                    'instructions' => 'Please note: GTM should only be used for embedding Google Analytics, because the cookie consent mechanism will not cover other scripts that could be embedded via GTM.',
+                    'instructions' => 'Note: if you use GTM, it is up to you to configure GTM correctly to ensure it checks for "ad_storage" and/or "analytics_storage" consent status when adding scripts.',
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => [
@@ -77,6 +77,55 @@ class Options implements \Dxw\Iguana\Registerable
                     'prepend' => '',
                     'append' => '',
                     'maxlength' => '',
+                ],
+                [
+                    'key' => 'field_4024de106295e',
+                    'label' => 'Include GTM marketing consent?',
+                    'name' => 'gtm_marketing_consent',
+                    'type' => 'true_false',
+                    'instructions' => 'If you tick this, then the plugin will control GTM\'s "ad_storage" state, as well as the "analytics_storage" state.',
+                    'required' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_5f986ab76a820',
+                                'operator' => '!=empty',
+                            ],
+                        ],
+                    ],
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => ''
+                ],
+                [
+                    'key' => 'field_634548a37c19d',
+                    'label' => 'GTM Marketing cookies',
+                    'name' => 'gtm_marketing_cookies',
+                    'type' => 'text',
+                    'instructions' => 'The marketing cookies that will be set by GTM. Should be formatted as a comma-separated list, without quotes, e.g. cookie_1,cookie_2,cookie_3',
+                    'required' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_4024de106295e',
+                                'operator' => '==',
+                                'value' => '1',
+                            ],
+                        ],
+                    ],
+                    'wrapper' => [
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                    'default_value' => '',
+                    'maxlength' => '',
+                    'placeholder' => '',
+                    'prepend' => '',
+                    'append' => '',
                 ],
                 [
                     'key' => 'field_5f986ace6a81a',

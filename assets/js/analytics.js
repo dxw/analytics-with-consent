@@ -10,10 +10,10 @@ var analyticsWithConsent = {
         }, i[r].l = 1 * new Date(); a = s.createElement(o),
         m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
       })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga')
-    
+
       ga('create', cookieControlDefaultAnalytics.googleAnalyticsId, 'auto')
-      ga('send', 'pageview')        
-    }   
+      ga('send', 'pageview')
+    }
     // End Google Analytics (UA)
     // Add GA4
     if (cookieControlDefaultAnalytics.ga4Id !== '') {
@@ -25,12 +25,9 @@ var analyticsWithConsent = {
 
     // GTM
     if (cookieControlDefaultAnalytics.gtmId !== '') {
-        window.dataLayer = window.dataLayer || [];
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer',cookieControlDefaultAnalytics.gtmId);
-        gtag('consent', 'update', {
-            'analytics_storage': 'granted'
-        });
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+      });
     }
     // End GTM
   },
@@ -49,15 +46,25 @@ var analyticsWithConsent = {
     // End GA4
     // Disable GTM
     if (cookieControlDefaultAnalytics.gtmId !== '') {
-        gtag('consent', 'update', {
-            'analytics_storage': 'denied'
-        });
+      gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
     }
     // End GTM
+  },
+  marketingAccept: function () {
+    gtag('consent', 'update', {
+      'ad_storage' : 'granted'
+    });
+  },
+  marketingRevoke: function () {
+    gtag('consent', 'update', {
+      'ad_storage' : 'denied'
+    });
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
-window.dataLayer = window.dataLayer || []    
+window.dataLayer = window.dataLayer || []
 gtag('consent', 'default', {
   'ad_storage': 'denied',
   'analytics_storage': 'denied'

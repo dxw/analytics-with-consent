@@ -9,6 +9,7 @@ class Scripts implements \Dxw\Iguana\Registerable
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
         add_action('wp_head', [$this, 'addGA4']);
+        add_action('wp_head', [$this, 'addGTM']);
     }
 
     public function enqueueScripts() : void
@@ -46,8 +47,38 @@ class Scripts implements \Dxw\Iguana\Registerable
         }
     }
 
+    public function addGTM() : void
+    {
+        $apiKey = get_field('civic_cookie_control_api_key', 'option');
+        $productType = get_field('civic_cookie_control_product_type', 'option');
+        $gtmId = get_field('google_analytics_gtm', 'option');
+        if ($apiKey && $productType && $gtmId) {
+            printf("<script>window.dataLayer = window.dataLayer || []; (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','%s')</script>", esc_js($gtmId));
+        }
+    }
+
     private function defaultConfig() : array
     {
+        $optionalCookies = [
+            [
+                'name' => 'analytics',
+                'label' => 'Analytical Cookies',
+                'description' => 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
+                'cookies' => ['_ga', '_gid', '_gat', '__utma', '__utmt', '__utmb', '__utmc', '__utmz', '__utmv'],
+                'onAccept' => "analyticsWithConsent.gaAccept",
+                'onRevoke' => "analyticsWithConsent.gaRevoke"
+            ]
+        ];
+        if (get_field('gtm_marketing_consent', 'option')) {
+            $optionalCookies[] = [
+                'name' => 'marketing',
+                'label' => 'Marketing Cookies',
+                'description' => 'Marketing cookies help us to improve the relevency of advertising campaigns you receive from us.',
+                'cookies' => (explode(',', esc_js(get_field('gtm_marketing_cookies', 'option')))),
+                'onAccept' => "analyticsWithConsent.marketingAccept",
+                'onRevoke' => "analyticsWithConsent.marketingRevoke"
+            ];
+        }
         return apply_filters('awc_civic_cookie_control_config', [
             'apiKey' => get_field('civic_cookie_control_api_key', 'option'),
             'product' => get_field('civic_cookie_control_product_type', 'option'),
@@ -65,16 +96,7 @@ class Scripts implements \Dxw\Iguana\Registerable
             'theme' => 'DARK',
             'subDomains' => false,
             'toggleType' => 'checkbox',
-            'optionalCookies' => [
-                [
-                    'name' => 'analytics',
-                    'label' => 'Analytical Cookies',
-                    'description' => 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
-                    'cookies' => ['_ga', '_gid', '_gat', '__utma', '__utmt', '__utmb', '__utmc', '__utmz', '__utmv'],
-                    'onAccept' => "analyticsWithConsent.gaAccept",
-                    'onRevoke' => "analyticsWithConsent.gaRevoke"
-                ]
-            ]
+            'optionalCookies' => $optionalCookies
         ]);
     }
 }
