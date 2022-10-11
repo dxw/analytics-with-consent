@@ -51,6 +51,16 @@ var analyticsWithConsent = {
       });
     }
     // End GTM
+  },
+  marketingAccept: function () {
+    gtag('consent', 'update', {
+      'ad_storage' : 'granted'
+    });
+  },
+  marketingRevoke: function () {
+    gtag('consent', 'update', {
+      'ad_storage' : 'denied'
+    });
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
