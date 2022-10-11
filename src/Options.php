@@ -64,7 +64,7 @@ class Options implements \Dxw\Iguana\Registerable
                     'label' => 'Google Analytics GTM',
                     'name' => 'google_analytics_gtm',
                     'type' => 'text',
-                    'instructions' => 'Please note: GTM should only be used for embedding Google Analytics, because the cookie consent mechanism will not cover other scripts that could be embedded via GTM.',
+                    'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => [
