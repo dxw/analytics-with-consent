@@ -14,10 +14,11 @@ describe(Scripts::class, function () {
     describe('->register()', function () {
         it('adds actions', function () {
             allow('add_action')->toBeCalled();
-            expect('add_action')->toBeCalled()->times(3);
+            expect('add_action')->toBeCalled()->times(4);
             expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueScripts']);
             expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueStyles']);
             expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGA4']);
+            expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGTM']);
             $this->scripts->register();
         });
     });
@@ -87,7 +88,7 @@ describe(Scripts::class, function () {
         context('API Key is not set', function () {
             it('does nothing', function () {
                 allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_ga4_id');
-                
+
                 ob_start();
                 $this->scripts->addGA4();
                 $result = ob_get_clean();
@@ -98,7 +99,7 @@ describe(Scripts::class, function () {
         context('product type is not set', function () {
             it('does nothing', function () {
                 allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_ga4_id');
-                
+
                 ob_start();
                 $this->scripts->addGA4();
                 $result = ob_get_clean();
@@ -109,7 +110,7 @@ describe(Scripts::class, function () {
         context('GA4 ID is not set', function () {
             it('does nothing', function () {
                 allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
-                
+
                 ob_start();
                 $this->scripts->addGA4();
                 $result = ob_get_clean();
@@ -123,12 +124,62 @@ describe(Scripts::class, function () {
                 allow('esc_attr')->toBeCalled()->andRun(function ($input) {
                     return $input;
                 });
-                
+
                 ob_start();
                 $this->scripts->addGA4();
                 $result = ob_get_clean();
 
                 expect($result)->toEqual('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=123456"></script>');
+            });
+        });
+    });
+
+    describe('->addGTM()', function () {
+        context('API Key is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_gtm_id');
+
+                ob_start();
+                $this->scripts->addGTM();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('product type is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_gtm_id');
+
+                ob_start();
+                $this->scripts->addGTM();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('GTM ID is not set', function () {
+            it('does nothing', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
+
+                ob_start();
+                $this->scripts->addGTM();
+                $result = ob_get_clean();
+
+                expect($result)->toEqual('');
+            });
+        });
+        context('API Key, product type and GTM ID are set', function () {
+            it('outputs the GTM script tag', function () {
+                allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
+                allow('esc_js')->toBeCalled()->andRun(function ($input) {
+                    return $input;
+                });
+
+                ob_start();
+                $this->scripts->addGTM();
+                $result = ob_get_clean();
+
+                expect($result)->toContain("window,document,'script','dataLayer','123456'");
             });
         });
     });

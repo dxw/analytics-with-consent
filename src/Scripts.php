@@ -9,6 +9,7 @@ class Scripts implements \Dxw\Iguana\Registerable
         add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
         add_action('wp_head', [$this, 'addGA4']);
+        add_action('wp_head', [$this, 'addGTM']);
     }
 
     public function enqueueScripts() : void
@@ -43,6 +44,16 @@ class Scripts implements \Dxw\Iguana\Registerable
         $ga4Id = get_field('ga_4_id', 'option');
         if ($apiKey && $productType && $ga4Id) {
             printf('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=%s"></script>', esc_attr($ga4Id));
+        }
+    }
+
+    public function addGTM() : void
+    {
+        $apiKey = get_field('civic_cookie_control_api_key', 'option');
+        $productType = get_field('civic_cookie_control_product_type', 'option');
+        $gtmId = get_field('google_analytics_gtm', 'option');
+        if ($apiKey && $productType && $gtmId) {
+            printf("<script>window.dataLayer = window.dataLayer || []; (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','%s')</script>", esc_js($gtmId));
         }
     }
 
