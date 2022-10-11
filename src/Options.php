@@ -64,7 +64,7 @@ class Options implements \Dxw\Iguana\Registerable
                     'label' => 'Google Analytics GTM',
                     'name' => 'google_analytics_gtm',
                     'type' => 'text',
-                    'instructions' => '',
+                    'instructions' => 'Note: if you use GTM, it is up to you to configure GTM correctly to ensure it checks for "ad_storage" and/or "analytics_storage" consent status when adding scripts.',
                     'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => [
@@ -105,7 +105,7 @@ class Options implements \Dxw\Iguana\Registerable
                     'label' => 'GTM Marketing cookies',
                     'name' => 'gtm_marketing_cookies',
                     'type' => 'text',
-                    'instructions' => 'The marketing cookies that will be set by GTM. Should be formatted as a comma-separated list, in single quotes, e.g. \'cookie_1\', \'cookie_2\',\'cookie_3\'',
+                    'instructions' => 'The marketing cookies that will be set by GTM. Should be formatted as a comma-separated list, without quotes, e.g. cookie_1,cookie_2,cookie_3',
                     'required' => 0,
                     'conditional_logic' => [
                         [
