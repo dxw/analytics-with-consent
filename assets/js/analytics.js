@@ -10,10 +10,10 @@ var analyticsWithConsent = {
         }, i[r].l = 1 * new Date(); a = s.createElement(o),
         m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
       })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga')
-    
+
       ga('create', cookieControlDefaultAnalytics.googleAnalyticsId, 'auto')
-      ga('send', 'pageview')        
-    }   
+      ga('send', 'pageview')
+    }
     // End Google Analytics (UA)
     // Add GA4
     if (cookieControlDefaultAnalytics.ga4Id !== '') {
@@ -57,7 +57,7 @@ var analyticsWithConsent = {
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
-window.dataLayer = window.dataLayer || []    
+window.dataLayer = window.dataLayer || []
 gtag('consent', 'default', {
   'ad_storage': 'denied',
   'analytics_storage': 'denied'
