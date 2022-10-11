@@ -25,9 +25,9 @@ var analyticsWithConsent = {
 
     // GTM
     if (cookieControlDefaultAnalytics.gtmId !== '') {
-        gtag('consent', 'update', {
-            'analytics_storage': 'granted'
-        });
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+      });
     }
     // End GTM
   },
@@ -46,9 +46,9 @@ var analyticsWithConsent = {
     // End GA4
     // Disable GTM
     if (cookieControlDefaultAnalytics.gtmId !== '') {
-        gtag('consent', 'update', {
-            'analytics_storage': 'denied'
-        });
+      gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
     }
     // End GTM
   }
