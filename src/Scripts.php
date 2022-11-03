@@ -96,7 +96,8 @@ class Scripts implements \Dxw\Iguana\Registerable
 			'theme' => 'DARK',
 			'subDomains' => false,
 			'toggleType' => 'checkbox',
-			'optionalCookies' => $optionalCookies
+			'optionalCookies' => $optionalCookies,
+			'necessaryCookies' => ['wp-postpass_*']
 		]);
 	}
 }
