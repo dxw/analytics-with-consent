@@ -67,7 +67,12 @@ var gtag = function () { dataLayer.push(arguments) }
 window.dataLayer = window.dataLayer || []
 gtag('consent', 'default', {
   'ad_storage': 'denied',
-  'analytics_storage': 'denied'
+  'analytics_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied',
+  'functionality_storage': 'denied',
+  'personalization_storage': 'denied',
+  'security_storage': 'denied'
 })
 /* eslint-enable */
 if (cookieControlDefaultAnalytics.ga4Id !== '') {
