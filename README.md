@@ -16,18 +16,22 @@ Without Whippet (not recommended):
 
 You will need:
 
-* A [Civic Cookie Control API Key](https://www.civicuk.com/cookie-control/download), for either "Community", "Pro" or "Multisite" level
-** This can be set up using standard client email i.e. <client>@clients.govpress.com
-** Save the CivicUK login details in 1Password
+* A [Civic Cookie Control API Key](https://www.civicuk.com/cookie-control/download):
+	* Use the [Civic Cookie Control download page](https://www.civicuk.com/cookie-control/download)
+	* Select the licence: "Community" (usually), "Pro" or "Multisite" (if required)
+	* Complete the form. This can be set up using standard client email i.e. <service>@clients.govpress.com
+	* Check email for API details
+	* Save the CivicUK login and API details in 1Password
+	* Login to CivicUK
+	* Set the domain  
+	The setup can be tested on staging sites by setting the domain in the CivicUK account to the staging domain, then changing it to the production domain for release.
 * A [Universal Analytics Tracking ID](https://support.google.com/analytics/answer/10269537?hl=en&ref_topic=9303319#zippy=%2Cadd-the-global-site-tag-directly-to-your-web-pages) from Google Analytics (usually in format `UA-xxxxxxxx-x`), or a [Google Analytics 4 Measurement ID](https://support.google.com/analytics/answer/9539598?hl=en) (format `G-xxxxxxxxxx`) or a Google Tag Manager id (format `GTM-xxxxxx`).
 
 Note: GTM should only be used for embedding Google Analytics, because the cookie consent mechanism will not cover other scripts that could be embedded via GTM.  
 
-Activate the plugin, and add the relevant info the to the plugin's settings page under Settings > Analytics with Consent.
+Activate the plugin, and add the relevant info to the plugin's settings page under Settings > Analytics with Consent.
 
-On a multisite, this will need to be done on a per-subsite basis.  
-
-The setup can be tested on staging sites by setting the domain in the CivicUK account to the staging domain, then changing it to the production domain for release.  
+On a multisite, this will need to be done on a per-subsite basis.   
 
 ## Customisation
 
