@@ -65,3 +65,16 @@ add_filter('awc_civic_cookie_control_config', function ($config) {
 ```
 
 Note that you can't pass JavaScript closures directly.
+
+## CHANGELOG and versioning
+
+Please update the CHANGELOG as you develop, and publish and tag new releases.
+
+As well as the individual version tags, we also have a major version tag (currently v1) that tracks the latest release for that major version. That has to be manually updated after you've done the release on GitHub as follows:
+
+(e.g. if you'd just published v1.6.0):
+
+git checkout main
+git fetch --tags -f
+git tag -f v1 v1.6.0
+git push origin -f --tags
