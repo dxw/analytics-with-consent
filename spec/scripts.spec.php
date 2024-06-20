@@ -43,7 +43,7 @@ describe(Scripts::class, function () {
 			context('and Civic Product Type is set', function () {
 				context('but marketing scripts are not on', function () {
 					it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings, with the option to filter them', function () {
-						allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id', 'a_gtm_id', false, 'an_api_key', 'a_product_type');
+						allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id', 'a_gtm_id', 'a_hjid', false, 'an_api_key', 'a_product_type');
 						expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_api_key', 'option');
 						expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_product_type', 'option');
 						expect('get_field')->toBeCalled()->once()->with('google_analytics_id', 'option');
@@ -61,7 +61,8 @@ describe(Scripts::class, function () {
 						expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
 							'googleAnalyticsId' => 'a_ga_id',
 							'ga4Id' => 'a_ga4_id',
-							'gtmId' => 'a_gtm_id'
+							'gtmId' => 'a_gtm_id',
+							'hjid' => 'a_hjid'
 						]);
 						allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
 							return $filteredData;
@@ -74,7 +75,7 @@ describe(Scripts::class, function () {
 
 				context('and marketing scripts are on', function () {
 					it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings including the additional optional cookies, with the option to filter them', function () {
-						allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id', 'a_gtm_id', true, 'a list of marketing cookies', 'an_api_key', 'a_product_type');
+						allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id', 'a_gtm_id', 'a_hjid', true, 'a list of marketing cookies', 'an_api_key', 'a_product_type');
 						allow('esc_js')->toBeCalled()->andRun(function ($input) {
 							return $input;
 						});
@@ -97,7 +98,8 @@ describe(Scripts::class, function () {
 						expect('wp_localize_script')->toBeCalled()->once()->with('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
 							'googleAnalyticsId' => 'a_ga_id',
 							'ga4Id' => 'a_ga4_id',
-							'gtmId' => 'a_gtm_id'
+							'gtmId' => 'a_gtm_id',
+							'hjid' => 'a_hjid'
 						]);
 						allow('apply_filters')->toBeCalled()->andRun(function ($filterName, $filteredData) {
 							return $filteredData;
