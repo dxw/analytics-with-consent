@@ -171,7 +171,26 @@ class Options implements \Dxw\Iguana\Registerable
 					'return_format' => 'value',
 					'ajax' => 0,
 					'placeholder' => '',
-				]
+				],
+				[
+					'key' => 'field_5f986ace6a82b',
+					'label' => 'Hotjar ID',
+					'name' => 'hotjar_id',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					],
+					'default_value' => '',
+					'placeholder' => '0000000',
+					'prepend' => '',
+					'append' => '',
+					'maxlength' => '',
+				],
 			],
 			'location' => [
 				[
