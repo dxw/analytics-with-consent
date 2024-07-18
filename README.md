@@ -74,7 +74,9 @@ As well as the individual version tags, we also have a major version tag (curren
 
 (e.g. if you'd just published v1.6.0):
 
+```sh
 git checkout main
 git fetch --tags -f
 git tag -f v1 v1.6.0
 git push origin -f --tags
+```
