@@ -9,7 +9,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.1
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -22,7 +22,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.1
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -35,7 +35,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.1
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -45,7 +45,7 @@ jobs:
   standardjs:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.1
       - uses: actions/setup-node@v4
         with:
           node-version: '14'
