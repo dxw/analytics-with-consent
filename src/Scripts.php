@@ -14,12 +14,12 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	public function enqueueScripts(): void
 	{
-		$apiKey = get_field('civic_cookie_control_api_key', 'option');
-		$productType = get_field('civic_cookie_control_product_type', 'option');
-		$googleAnalyticsId = get_field('google_analytics_id', 'option');
-		$ga4Id = get_field('ga_4_id', 'option');
-		$gtmId = get_field('google_analytics_gtm', 'option');
-		$hotjarId = get_field('hotjar_id', 'option');
+		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option'));
+		$productType = trim(get_field('civic_cookie_control_product_type', 'option'));
+		$googleAnalyticsId = trim(get_field('google_analytics_id', 'option'));
+		$ga4Id = trim(get_field('ga_4_id', 'option'));
+		$gtmId = trim(get_field('google_analytics_gtm', 'option'));
+		$hotjarId = trim(get_field('hotjar_id', 'option'));
 		if ($apiKey && $productType) {
 			wp_enqueue_script('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
 			wp_enqueue_script('civicCookieControlDefaultAnalytics', plugins_url('/assets/js/analytics.js', dirname(__FILE__)), ['civicCookieControl']);
@@ -41,9 +41,9 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	public function addGA4(): void
 	{
-		$apiKey = get_field('civic_cookie_control_api_key', 'option');
-		$productType = get_field('civic_cookie_control_product_type', 'option');
-		$ga4Id = get_field('ga_4_id', 'option');
+		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option'));
+		$productType = trim(get_field('civic_cookie_control_product_type', 'option'));
+		$ga4Id = trim(get_field('ga_4_id', 'option'));
 		if ($apiKey && $productType && $ga4Id) {
 			printf('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=%s"></script>', esc_attr($ga4Id));
 		}
@@ -51,9 +51,9 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	public function addGTM(): void
 	{
-		$apiKey = get_field('civic_cookie_control_api_key', 'option');
-		$productType = get_field('civic_cookie_control_product_type', 'option');
-		$gtmId = get_field('google_analytics_gtm', 'option');
+		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option'));
+		$productType = trim(get_field('civic_cookie_control_product_type', 'option'));
+		$gtmId = trim(get_field('google_analytics_gtm', 'option'));
 		if ($apiKey && $productType && $gtmId) {
 			printf("<script>window.dataLayer = window.dataLayer || []; (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','%s')</script>", esc_js($gtmId));
 		}
@@ -76,14 +76,14 @@ class Scripts implements \Dxw\Iguana\Registerable
 				'name' => 'marketing',
 				'label' => 'Marketing Cookies',
 				'description' => 'Marketing cookies help us to improve the relevancy of advertising campaigns you receive from us.',
-				'cookies' => (explode(',', esc_js(get_field('gtm_marketing_cookies', 'option')))),
+				'cookies' => (explode(',', trim(esc_js(get_field('gtm_marketing_cookies', 'option'))))),
 				'onAccept' => "analyticsWithConsent.marketingAccept",
 				'onRevoke' => "analyticsWithConsent.marketingRevoke"
 			];
 		}
 		return apply_filters('awc_civic_cookie_control_config', [
-			'apiKey' => get_field('civic_cookie_control_api_key', 'option'),
-			'product' => get_field('civic_cookie_control_product_type', 'option'),
+			'apiKey' => trim(get_field('civic_cookie_control_api_key', 'option')),
+			'product' => trim(get_field('civic_cookie_control_product_type', 'option')),
 			'closeStyle' => 'button',
 			'initialState' => 'open',
 			'text' => [

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - FIX typo in marketing cookie text
+- Analytics options are trimmed before adding to HTML output
 
 ## [1.5.2] - 2024-07-08
 
