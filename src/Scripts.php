@@ -75,7 +75,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 			$optionalCookies[] = [
 				'name' => 'marketing',
 				'label' => 'Marketing Cookies',
-				'description' => 'Marketing cookies help us to improve the relevency of advertising campaigns you receive from us.',
+				'description' => 'Marketing cookies help us to improve the relevancy of advertising campaigns you receive from us.',
 				'cookies' => (explode(',', esc_js(get_field('gtm_marketing_cookies', 'option')))),
 				'onAccept' => "analyticsWithConsent.marketingAccept",
 				'onRevoke' => "analyticsWithConsent.marketingRevoke"
