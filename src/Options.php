@@ -7,6 +7,30 @@ class Options implements \Dxw\Iguana\Registerable
 	public function register(): void
 	{
 		add_action('acf/init', [$this, 'acfInit']);
+		add_filter('acf/validate_value/name=google_analytics_id', [$this, 'validateTrimmedText'], 10, 4);
+		add_filter('acf/validate_value/name=ga_4_id', [$this, 'validateTrimmedText'], 10, 4);
+		add_filter('acf/validate_value/name=google_analytics_gtm', [$this, 'validateTrimmedText'], 10, 4);
+		add_filter('acf/validate_value/name=gtm_marketing_cookies', [$this, 'validateTrimmedText'], 10, 4);
+		add_filter('acf/validate_value/name=civic_cookie_control_api_key', [$this, 'validateTrimmedText'], 10, 4);
+		add_filter('acf/validate_value/name=hotjar_id', [$this, 'validateTrimmedText'], 10, 4);
+	}
+
+	/**
+	 * @psalm-param boolean | string $valid
+	 * @psalm-param mixed $value
+	 * @psalm-param array<mixed> $field
+	 * @psalm-param string $input_name
+	 * @return boolean | string
+	 */
+	public function validateTrimmedText($valid, $value, $field, $input_name)
+	{
+		if ($valid !== true) {
+			return $valid;
+		}
+		if (trim($value) !== $value) {
+			$valid = 'Please remove any leading or trailing spaces.';
+		}
+		return $valid;
 	}
 
 	public function acfInit(): void
