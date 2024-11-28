@@ -10,6 +10,14 @@ class Scripts implements \Dxw\Iguana\Registerable
 		add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
 		add_action('wp_head', [$this, 'addGA4']);
 		add_action('wp_head', [$this, 'addGTM']);
+		add_filter('plugin_action_links_analytics-with-consent/index.php', [$this, 'addActionLinks']);
+	}
+
+	public function addActionLinks(array $links): array
+	{
+		$settingsLink = '<a href="' . admin_url('options-general.php?page=analytics-with-consent') . '">Settings</a>';
+		array_push($links, $settingsLink);
+		return $links;
 	}
 
 	public function enqueueScripts(): void
