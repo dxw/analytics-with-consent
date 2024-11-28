@@ -19,7 +19,20 @@ describe(Scripts::class, function () {
 			expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueStyles']);
 			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGA4']);
 			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGTM']);
+			allow('add_filter')->toBeCalled();
+			expect('add_filter')->toBeCalled()->with('plugin_action_links_analytics-with-consent/index.php', [$this->scripts, 'addActionLinks']);
+
 			$this->scripts->register();
+		});
+	});
+	describe('->addActionLinks()', function () {
+		it('adds a link to the settings page', function () {
+			allow('admin_url')->toBeCalled()->with('options-general.php?page=analytics-with-consent')->andReturn('https://example.com/wp-admin/options-general.php?page=analytics-with-consent');
+
+			$expected = ['<a href="https://example.com/wp-admin/options-general.php?page=analytics-with-consent">Settings</a>'];
+			$result = $this->scripts->addActionLinks([]);
+
+			expect($result)->toEqual($expected);
 		});
 	});
 
