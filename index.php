@@ -12,7 +12,7 @@
  * Plugin URI: https://github.com/dxw/analytics-with-consent
  * Description: Google Analytics + CIVIC Cookie Control
  * Author: dxw
- * Version: 1.5.4
+ * Version: 1.5.5
  * Network: True
  */
 
