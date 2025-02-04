@@ -35,6 +35,10 @@ class Options implements \Dxw\Iguana\Registerable
 
 	public function acfInit(): void
 	{
+		if (!function_exists('acf_add_options_sub_page')) {
+			return;
+		}
+
 		acf_add_options_sub_page([
 			'page_title' => 'Analytics with Consent',
 			'menu_slug' => 'analytics-with-consent',

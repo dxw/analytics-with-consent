@@ -37,8 +37,16 @@ describe(Scripts::class, function () {
 	});
 
 	describe('->enqueueScripts()', function () {
+		context('ACF is not available', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(false);
+				expect('get_field')->not->toBeCalled();
+				$this->scripts->enqueueScripts();
+			});
+		});
 		context('Civic Cookie API Key is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('');
 				expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_api_key', 'option');
 				$this->scripts->enqueueScripts();
@@ -47,6 +55,7 @@ describe(Scripts::class, function () {
 		context('Civic Cookie API Key is set', function () {
 			context('but Civic Product Type is not set', function () {
 				it('does nothing', function () {
+					allow('function_exists')->toBeCalled()->andReturn(true);
 					allow('get_field')->toBeCalled()->andReturn('an_api_key', '');
 					expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_api_key', 'option');
 					expect('get_field')->toBeCalled()->once()->with('civic_cookie_control_product_type', 'option');
@@ -56,6 +65,7 @@ describe(Scripts::class, function () {
 			context('and Civic Product Type is set', function () {
 				context('but marketing scripts are not on', function () {
 					it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings, with the option to filter them', function () {
+						allow('function_exists')->toBeCalled()->andReturn(true);
 						allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id', 'a_gtm_id', 'a_hjid', false, 'an_api_key', 'a_product_type');
 						expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_api_key', 'option');
 						expect('get_field')->toBeCalled()->times(2)->with('civic_cookie_control_product_type', 'option');
@@ -88,6 +98,7 @@ describe(Scripts::class, function () {
 
 				context('and marketing scripts are on', function () {
 					it('enqueues the Civic Cookie Control script and the config and analytics scripts, and injects our settings including the additional optional cookies, with the option to filter them', function () {
+						allow('function_exists')->toBeCalled()->andReturn(true);
 						allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', 'a_ga_id', 'a_ga4_id', 'a_gtm_id', 'a_hjid', true, 'a list of marketing cookies', 'an_api_key', 'a_product_type');
 						allow('esc_js')->toBeCalled()->andRun(function ($input) {
 							return $input;
@@ -139,8 +150,17 @@ describe(Scripts::class, function () {
 	});
 
 	describe('->addGA4()', function () {
+		context('ACF is not available', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(false);
+				expect('get_field')->not->toBeCalled();
+
+				$this->scripts->addGA4();
+			});
+		});
 		context('API Key is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_ga4_id');
 
 				ob_start();
@@ -152,6 +172,7 @@ describe(Scripts::class, function () {
 		});
 		context('product type is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_ga4_id');
 
 				ob_start();
@@ -163,6 +184,7 @@ describe(Scripts::class, function () {
 		});
 		context('GA4 ID is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
 
 				ob_start();
@@ -174,6 +196,7 @@ describe(Scripts::class, function () {
 		});
 		context('API Key, product type and GA4 ID are set', function () {
 			it('outputs the GA4 script tag', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
 				allow('esc_attr')->toBeCalled()->andRun(function ($input) {
 					return $input;
@@ -189,8 +212,17 @@ describe(Scripts::class, function () {
 	});
 
 	describe('->addGTM()', function () {
+		context('ACF is not available', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(false);
+				expect('get_field')->not->toBeCalled();
+
+				$this->scripts->addGTM();
+			});
+		});
 		context('API Key is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_gtm_id');
 
 				ob_start();
@@ -202,6 +234,7 @@ describe(Scripts::class, function () {
 		});
 		context('product type is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_gtm_id');
 
 				ob_start();
@@ -213,6 +246,7 @@ describe(Scripts::class, function () {
 		});
 		context('GTM ID is not set', function () {
 			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
 
 				ob_start();
@@ -224,6 +258,7 @@ describe(Scripts::class, function () {
 		});
 		context('API Key, product type and GTM ID are set', function () {
 			it('outputs the GTM script tag', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
 				allow('esc_js')->toBeCalled()->andRun(function ($input) {
 					return $input;
