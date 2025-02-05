@@ -22,6 +22,10 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	public function enqueueScripts(): void
 	{
+		if (!function_exists('get_field')) {
+			return;
+		}
+
 		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option') ?? '');
 		$productType = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
 		$googleAnalyticsId = trim(get_field('google_analytics_id', 'option') ?? '');
@@ -49,6 +53,10 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	public function addGA4(): void
 	{
+		if (!function_exists('get_field')) {
+			return;
+		}
+
 		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option') ?? '');
 		$productType = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
 		$ga4Id = trim(get_field('ga_4_id', 'option') ?? '');
@@ -59,6 +67,10 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	public function addGTM(): void
 	{
+		if (!function_exists('get_field')) {
+			return;
+		}
+
 		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option') ?? '');
 		$productType = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
 		$gtmId = trim(get_field('google_analytics_gtm', 'option') ?? '');
@@ -69,6 +81,10 @@ class Scripts implements \Dxw\Iguana\Registerable
 
 	private function defaultConfig(): array
 	{
+		if (!function_exists('get_field')) {
+			return [];
+		}
+
 		$optionalCookies = [
 			[
 				'name' => 'analytics',

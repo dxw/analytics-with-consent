@@ -56,14 +56,29 @@ describe(Options::class, function () {
 	});
 
 	describe('->acfInit()', function () {
-		it('registers options', function () {
-			allow('acf_add_options_sub_page')->toBeCalled();
-			expect('acf_add_options_sub_page')->toBeCalled();
+		context('ACF is available', function () {
+			it('registers options', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
 
-			allow('acf_add_local_field_group')->toBeCalled();
-			expect('acf_add_local_field_group')->toBeCalled();
+				allow('acf_add_options_sub_page')->toBeCalled();
+				expect('acf_add_options_sub_page')->toBeCalled();
 
-			$this->options->acfInit();
+				allow('acf_add_local_field_group')->toBeCalled();
+				expect('acf_add_local_field_group')->toBeCalled();
+
+				$this->options->acfInit();
+			});
+		});
+		context('ACF is not available', function () {
+			it('registers options', function () {
+				allow('function_exists')->toBeCalled()->andReturn(false);
+
+				expect('acf_add_options_sub_page')->not->toBeCalled();
+
+				expect('acf_add_local_field_group')->not->toBeCalled();
+
+				$this->options->acfInit();
+			});
 		});
 	});
 });
