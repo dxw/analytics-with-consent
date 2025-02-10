@@ -23,15 +23,15 @@ You will need:
 	* Check email for API details
 	* Save the CivicUK login and API details in 1Password
 	* Login to CivicUK
-	* Set the domain  
+	* Set the domain
 	The setup can be tested on staging sites by setting the domain in the CivicUK account to the staging domain, then changing it to the production domain for release.
 * A [Universal Analytics Tracking ID](https://support.google.com/analytics/answer/10269537?hl=en&ref_topic=9303319#zippy=%2Cadd-the-global-site-tag-directly-to-your-web-pages) from Google Analytics (usually in format `UA-xxxxxxxx-x`), or a [Google Analytics 4 Measurement ID](https://support.google.com/analytics/answer/9539598?hl=en) (format `G-xxxxxxxxxx`) or a Google Tag Manager id (format `GTM-xxxxxx`).
 
-Note: GTM should only be used for embedding Google Analytics, because the cookie consent mechanism will not cover other scripts that could be embedded via GTM.  
+Note: GTM should only be used for embedding Google Analytics, because the cookie consent mechanism will not cover other scripts that could be embedded via GTM.
 
 Activate the plugin, and add the relevant info to the plugin's settings page under Settings > Analytics with Consent.
 
-On a multisite, this will need to be done on a per-subsite basis.   
+On a multisite, this will need to be done on a per-subsite basis.
 
 ## Customisation
 
@@ -46,7 +46,7 @@ add_filter('awc_civic_cookie_control_config', function ($config) {
 });
 ```
 
-If you're adding config that requires JavaScript function calls (e.g. the "onAccept" and "onRevoke" parameters for specific cookie types), you can pass the name of any function that is in the global namespace. e.g. 
+If you're adding config that requires JavaScript function calls (e.g. the "onAccept" and "onRevoke" parameters for specific cookie types), you can pass the name of any function that is in the global namespace. e.g.
 
 ```php
 add_filter('awc_civic_cookie_control_config', function ($config) {
