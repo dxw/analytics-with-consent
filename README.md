@@ -39,7 +39,7 @@ You can use the `awc_civic_cookie_control_config` filter to add to or over-ride 
 
 e.g. if you wanted to change the panel position from left to right, in your plugin or theme:
 
-```
+```php
 add_filter('awc_civic_cookie_control_config', function ($config) {
     $config['position'] = 'RIGHT';
     return $config;
@@ -48,7 +48,7 @@ add_filter('awc_civic_cookie_control_config', function ($config) {
 
 If you're adding config that requires JavaScript function calls (e.g. the "onAccept" and "onRevoke" parameters for specific cookie types), you can pass the name of any function that is in the global namespace. e.g. 
 
-```
+```php
 add_filter('awc_civic_cookie_control_config', function ($config) {
     $config['optionalCookies'][0]['onAccept] = 'doThis'; \\this will call the doThis() function in the global namespace
     return $config;
@@ -57,7 +57,7 @@ add_filter('awc_civic_cookie_control_config', function ($config) {
 
 You can also do the same with namespaced functions (as long as the top-level object is in the global namespace). e.g.
 
-```
+```php
 add_filter('awc_civic_cookie_control_config', function ($config) {
     $config['optionalCookies'][0]['onAccept] = 'myNamespace.doThis'; \\this will call the myNamespace.doThis() function
     return $config;
