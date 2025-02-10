@@ -66,7 +66,9 @@ add_filter('awc_civic_cookie_control_config', function ($config) {
 
 Note that you can't pass JavaScript closures directly.
 
-## CHANGELOG and versioning
+## Development in this repository
+
+### CHANGELOG and versioning
 
 Please update the CHANGELOG as you develop, and publish and tag new releases.
 
@@ -79,4 +81,74 @@ git checkout main
 git fetch --tags -f
 git tag -f v1 v1.6.0
 git push origin -f --tags
+```
+
+### Upgrading the CivicUK Javascript dependency
+
+This plugin ships with a _specific_ version of Civic Cookie Control, and will
+not automatically use the latest stable version. To find out what the latest
+available versions of the script are, see this page:
+
+    https://www.civicuk.com/cookie-control/documentation
+
+The reason for this is that we load the script with a
+[subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
+attribute, to prevent cross-origin style security vulnerabilities.
+
+In order to update Civic Cookie Control on sites using this plugin, you need
+to:
+
+1. Visit [this page](https://www.civicuk.com/cookie-control/documentation) and
+   download the script to your local machine
+1. Compute the SRI by running the following command: `cat <file> | openssl dgst -sha256 -binary | openssl enc -base64 -A`
+1. Update the two relevant attributes in the `src/Scripts.php` file.
+1. Update the ChangeLog file.
+1. Commit the changes and raise a pull request.
+
+#### Script for computing the SRI of a given file
+
+To make this maintenance work easier, you may want to put the following Bash
+script on your local path:
+
+```shell
+#!/bin/bash
+
+#
+# Compute the subresource integrity of a given file on disk.
+#
+# See:
+#
+#    https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
+#
+# Example:
+#
+#   $ wget code.jquery.com/jquery-1.10.2.min.js
+#   $ compute-sri.sh jquery-1.10.2.min.js
+#   sha256-C6CB9UYIS9UJeqinPHWTHVqh/E1uhG5Twh+Y5qFQmYg=
+#
+
+set -o errexit
+set -o pipefail
+
+if [[ -z "$1" ]];
+then
+    echo "ERROR: First argument must be a filename."
+    exit 1
+fi
+
+set -o nounset
+
+if [[ ! -f "$1" ]];
+then
+    echo "ERROR: Argument $1 is not a file."
+    exit 1
+fi
+
+if [[ ! -s "$1" ]];
+then
+    echo "ERROR: File $1 is empty."
+    exit 1
+fi
+
+echo "sha256-$(< "$1" openssl dgst -sha256 -binary | openssl enc -base64 -A)"
 ```
