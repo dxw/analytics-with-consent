@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+- PHP 8.2 compatibility (note PHP 7.4 compatibility is retained)
+
 ## Changed
 
 - When ACF is not available the plugin does not produce an error
