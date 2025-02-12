@@ -159,7 +159,7 @@ describe(Scripts::class, function () {
 			});
 		});
 		context('if src is provided and the script is Civic', function () {
-			it('does nothing', function () {
+			it('adds subresource integrity to the script tag', function () {
 				$attributes = [
 					'id' => 'civicCookieControl-js',
 					'src' => 'https://cc.cdn.civiccomputing.com/script.min.js',
