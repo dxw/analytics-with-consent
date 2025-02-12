@@ -4,7 +4,7 @@ on: push
 
 jobs:
   kahlan:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         php-versions: ['7.4']
@@ -17,7 +17,7 @@ jobs:
       - run: composer install --no-interaction
       - run: vendor/bin/kahlan
   psalm:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         php-versions: ['7.4']
@@ -30,7 +30,7 @@ jobs:
       - run: composer install --no-interaction
       - run: vendor/bin/psalm
   php-cs-fixer:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         php-versions: ['7.4']
@@ -43,7 +43,7 @@ jobs:
       - run: composer install --no-interaction
       - run: vendor/bin/php-cs-fixer fix --dry-run -v --diff
   standardjs:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.2.2
       - uses: actions/setup-node@v4
@@ -51,3 +51,22 @@ jobs:
           node-version: '14'
       - run: yarn install --non-interactive
       - run: yarn run standard
+  validate-sri:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - run: |
+          RAW_SCRIPT=$(grep "CIVIC_COOKIE_CONTROL_SCRIPT =" src/Scripts.php)
+          RAW_SRI=$(grep "CIVIC_COOKIE_CONTROL_SRI =" src/Scripts.php)
+          SCRIPT=$(echo "$RAW_SCRIPT" | cut -d' ' -f5 | sed s/\'//g | cut -d";" -f1)
+          SRI=$(echo "$RAW_SRI" | cut -d' ' -f5 | sed s/\'//g | cut -d";" -f1)
+          curl -o script.js "$SCRIPT"
+          COMPUTED="sha256-$(< script.js openssl dgst -sha256 -binary | openssl enc -base64 -A)"
+          if [[ "$COMPUTED" == "$SRI" ]];
+          then
+              echo "SRI validation successful."
+          else
+              echo "Expected SRI: $COMPUTED but script contains: $SRI"
+              echo "Please see the repo README for details on how to update the Civic script."
+              exit 1
+          fi

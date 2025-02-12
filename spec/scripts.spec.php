@@ -20,6 +20,8 @@ describe(Scripts::class, function () {
 			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGA4']);
 			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGTM']);
 			allow('add_filter')->toBeCalled();
+			expect('add_filter')->toBeCalled()->times(2);
+			expect('add_filter')->toBeCalled()->with('wp_script_attributes', [$this->scripts, 'addSubResourceIntegrity'], 10, 1);
 			expect('add_filter')->toBeCalled()->with('plugin_action_links_analytics-with-consent/index.php', [$this->scripts, 'addActionLinks']);
 
 			$this->scripts->register();
@@ -73,7 +75,7 @@ describe(Scripts::class, function () {
 						expect('get_field')->toBeCalled()->once()->with('ga_4_id', 'option');
 						expect('get_field')->toBeCalled()->once()->with('google_analytics_gtm', 'option');
 						allow('wp_enqueue_script')->toBeCalled();
-						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
+						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', Scripts::CIVIC_COOKIE_CONTROL_SCRIPT);
 						allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
 						allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/js/analytics.js', 'http://path/to/this/plugin/assets/js/config.js');
 						expect('plugins_url')->toBeCalled()->once()->with('/assets/js/analytics.js', '/path/to/this/plugin');
@@ -111,7 +113,7 @@ describe(Scripts::class, function () {
 						expect('get_field')->toBeCalled()->once()->with('gtm_marketing_consent', 'option');
 						expect('get_field')->toBeCalled()->once()->with('gtm_marketing_cookies', 'option');
 						allow('wp_enqueue_script')->toBeCalled();
-						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
+						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', Scripts::CIVIC_COOKIE_CONTROL_SCRIPT);
 						allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
 						allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/js/analytics.js', 'http://path/to/this/plugin/assets/js/config.js');
 						expect('plugins_url')->toBeCalled()->once()->with('/assets/js/analytics.js', '/path/to/this/plugin');
@@ -134,6 +136,43 @@ describe(Scripts::class, function () {
 						$result = $this->scripts->enqueueScripts();
 					});
 				});
+			});
+		});
+	});
+
+	describe('->addSubResourceIntegrity()', function () {
+		context('if no id or src is provided', function () {
+			it('does nothing', function () {
+				$attributes = [];
+				$result = $this->scripts->addSubResourceIntegrity($attributes);
+				expect($result)->toEqual($attributes);
+			});
+		});
+		context('if src is provided but the script is not Civic', function () {
+			it('does nothing', function () {
+				$attributes = [
+					'id' => 'notCivicCookieControl-js',
+					'src' => 'https://example.com/script.js',
+				];
+				$result = $this->scripts->addSubResourceIntegrity($attributes);
+				expect($result)->toEqual($attributes);
+			});
+		});
+		context('if src is provided and the script is Civic', function () {
+			it('adds subresource integrity to the script tag', function () {
+				$attributes = [
+					'id' => 'civicCookieControl-js',
+					'src' => 'https://cc.cdn.civiccomputing.com/script.min.js',
+				];
+				$expected = [
+					'id' => 'civicCookieControl-js',
+					'src' => 'https://cc.cdn.civiccomputing.com/script.min.js',
+					'integrity' => Scripts::CIVIC_COOKIE_CONTROL_SRI,
+					'crossorigin' => 'anonymous'
+				];
+
+				$result = $this->scripts->addSubResourceIntegrity($attributes);
+				expect($result)->toEqual($expected);
 			});
 		});
 	});

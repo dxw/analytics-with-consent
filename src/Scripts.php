@@ -4,9 +4,13 @@ namespace AnalyticsWithConsent;
 
 class Scripts implements \Dxw\Iguana\Registerable
 {
+	public const CIVIC_COOKIE_CONTROL_SCRIPT = 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.10.1.min.js';
+	public const CIVIC_COOKIE_CONTROL_SRI = 'sha256-sbWTL9BpTeC9lES2bFINNkf9tJPZxR/MLn3FgelTGcA=';
+
 	public function register(): void
 	{
 		add_action('wp_enqueue_scripts', [$this, 'enqueueScripts']);
+		add_filter('wp_script_attributes', [$this, 'addSubResourceIntegrity'], 10, 1);
 		add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
 		add_action('wp_head', [$this, 'addGA4']);
 		add_action('wp_head', [$this, 'addGTM']);
@@ -33,7 +37,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 		$gtmId = trim(get_field('google_analytics_gtm', 'option') ?? '');
 		$hotjarId = trim(get_field('hotjar_id', 'option') ?? '');
 		if ($apiKey && $productType) {
-			wp_enqueue_script('civicCookieControl', 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js');
+			wp_enqueue_script('civicCookieControl', self::CIVIC_COOKIE_CONTROL_SCRIPT);
 			wp_enqueue_script('civicCookieControlDefaultAnalytics', plugins_url('/assets/js/analytics.js', dirname(__FILE__)), ['civicCookieControl']);
 			wp_localize_script('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
 				'googleAnalyticsId' => $googleAnalyticsId,
@@ -46,6 +50,19 @@ class Scripts implements \Dxw\Iguana\Registerable
 		}
 	}
 
+	public function addSubResourceIntegrity(array $attributes): array
+	{
+		if (empty($attributes['id']) || empty($attributes['src'])) {
+			return $attributes;
+		}
+
+		if ($attributes['id'] === 'civicCookieControl-js' && strpos($attributes['src'], 'cc.cdn.civiccomputing.com') !== false) {
+			$attributes['integrity'] = self::CIVIC_COOKIE_CONTROL_SRI;
+			$attributes['crossorigin'] = 'anonymous';
+		}
+
+		return $attributes;
+	}
 	public function enqueueStyles(): void
 	{
 		wp_enqueue_style('analytics-with-consent-styles', plugins_url('/assets/css/styles.css', dirname(__FILE__)));

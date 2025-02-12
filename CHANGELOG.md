@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Set subresource integrity in `script` headers
+- Document how to compute subresource integrity for cross-origin resources
+
 ## Changed
 
 - When ACF is not available the plugin does not produce an error
