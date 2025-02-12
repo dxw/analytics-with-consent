@@ -4,19 +4,8 @@ namespace AnalyticsWithConsent;
 
 class Scripts implements \Dxw\Iguana\Registerable
 {
-	private string $civicCookieControlScript = 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.10.1.min.js';
-	private string $civicCookieControlSRI = 'sha256-sbWTL9BpTeC9lES2bFINNkf9tJPZxR/MLn3FgelTGcA=';
-
-	// Only expected to be used by unit tests.
-	public function __construct(string $script = null, string $sri = null)
-	{
-		if (!is_null($script)) {
-			$this->civicCookieControlScript = $script;
-		}
-		if (!is_null($sri)) {
-			$this->civicCookieControlSRI = $sri;
-		}
-	}
+	public const CIVIC_COOKIE_CONTROL_SCRIPT = 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.10.1.min.js';
+	public const CIVIC_COOKIE_CONTROL_SRI = 'sha256-sbWTL9BpTeC9lES2bFINNkf9tJPZxR/MLn3FgelTGcA=';
 
 	public function register(): void
 	{
@@ -48,7 +37,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 		$gtmId = trim(get_field('google_analytics_gtm', 'option') ?? '');
 		$hotjarId = trim(get_field('hotjar_id', 'option') ?? '');
 		if ($apiKey && $productType) {
-			wp_enqueue_script('civicCookieControl', $this->civicCookieControlScript);
+			wp_enqueue_script('civicCookieControl', self::CIVIC_COOKIE_CONTROL_SCRIPT);
 			wp_enqueue_script('civicCookieControlDefaultAnalytics', plugins_url('/assets/js/analytics.js', dirname(__FILE__)), ['civicCookieControl']);
 			wp_localize_script('civicCookieControlDefaultAnalytics', 'cookieControlDefaultAnalytics', [
 				'googleAnalyticsId' => $googleAnalyticsId,
@@ -68,7 +57,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 		}
 
 		if ($attributes['id'] === 'civicCookieControl-js' && strpos($attributes['src'], 'cc.cdn.civiccomputing.com') !== false) {
-			$attributes['integrity'] = $this->civicCookieControlSRI;
+			$attributes['integrity'] = self::CIVIC_COOKIE_CONTROL_SRI;
 			$attributes['crossorigin'] = 'anonymous';
 		}
 

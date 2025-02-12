@@ -4,9 +4,7 @@ namespace AnalyticsWithConsent;
 
 describe(Scripts::class, function () {
 	beforeEach(function () {
-		$this->script = 'script.min.js';
-		$this->sri = 'sha256-abc123def4567890';
-		$this->scripts = new Scripts($this->script, $this->sri);
+		$this->scripts = new Scripts();
 	});
 
 	it('is registerable', function () {
@@ -77,7 +75,7 @@ describe(Scripts::class, function () {
 						expect('get_field')->toBeCalled()->once()->with('ga_4_id', 'option');
 						expect('get_field')->toBeCalled()->once()->with('google_analytics_gtm', 'option');
 						allow('wp_enqueue_script')->toBeCalled();
-						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', $this->script);
+						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', Scripts::CIVIC_COOKIE_CONTROL_SCRIPT);
 						allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
 						allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/js/analytics.js', 'http://path/to/this/plugin/assets/js/config.js');
 						expect('plugins_url')->toBeCalled()->once()->with('/assets/js/analytics.js', '/path/to/this/plugin');
@@ -115,7 +113,7 @@ describe(Scripts::class, function () {
 						expect('get_field')->toBeCalled()->once()->with('gtm_marketing_consent', 'option');
 						expect('get_field')->toBeCalled()->once()->with('gtm_marketing_cookies', 'option');
 						allow('wp_enqueue_script')->toBeCalled();
-						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', $this->script);
+						expect('wp_enqueue_script')->toBeCalled()->once()->with('civicCookieControl', Scripts::CIVIC_COOKIE_CONTROL_SCRIPT);
 						allow('dirname')->toBeCalled()->andReturn('/path/to/this/plugin');
 						allow('plugins_url')->toBeCalled()->andReturn('http://path/to/this/plugin/assets/js/analytics.js', 'http://path/to/this/plugin/assets/js/config.js');
 						expect('plugins_url')->toBeCalled()->once()->with('/assets/js/analytics.js', '/path/to/this/plugin');
@@ -169,7 +167,7 @@ describe(Scripts::class, function () {
 				$expected = [
 					'id' => 'civicCookieControl-js',
 					'src' => 'https://cc.cdn.civiccomputing.com/script.min.js',
-					'integrity' => $this->sri,
+					'integrity' => Scripts::CIVIC_COOKIE_CONTROL_SRI,
 					'crossorigin' => 'anonymous'
 				];
 
