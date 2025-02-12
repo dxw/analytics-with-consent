@@ -56,8 +56,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
       - run: |
-          RAW_SCRIPT=$(grep "\$civicCookieControlScript =" src/Scripts.php)
-          RAW_SRI=$(grep "\$civicCookieControlSRI =" src/Scripts.php)
+          RAW_SCRIPT=$(grep "CIVIC_COOKIE_CONTROL_SCRIPT =" src/Scripts.php)
+          RAW_SRI=$(grep "CIVIC_COOKIE_CONTROL_SRI =" src/Scripts.php)
           SCRIPT=$(echo "$RAW_SCRIPT" | cut -d' ' -f5 | sed s/\'//g | cut -d";" -f1)
           SRI=$(echo "$RAW_SRI" | cut -d' ' -f5 | sed s/\'//g | cut -d";" -f1)
           curl -o script.js "$SCRIPT"
