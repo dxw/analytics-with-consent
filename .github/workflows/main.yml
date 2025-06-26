@@ -4,7 +4,7 @@ on: push
 
 jobs:
   lint-and-test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         php-versions: ['7.4']
@@ -20,7 +20,7 @@ jobs:
           vendor/bin/kahlan
           vendor/bin/psalm
   standardjs:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.2.2
       - uses: actions/setup-node@v4
