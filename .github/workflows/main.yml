@@ -3,7 +3,7 @@ name: Main tests
 on: push
 
 jobs:
-  kahlan:
+  lint-and-test:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -15,33 +15,10 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
       - run: composer install --no-interaction
-      - run: vendor/bin/kahlan
-  psalm:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        php-versions: ['7.4']
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-      - run: composer install --no-interaction
-      - run: vendor/bin/psalm
-  php-cs-fixer:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        php-versions: ['7.4']
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-      - run: composer install --no-interaction
-      - run: vendor/bin/php-cs-fixer fix --dry-run -v --diff
+      - run: |
+          vendor/bin/php-cs-fixer fix --dry-run -v --diff
+          vendor/bin/kahlan
+          vendor/bin/psalm
   standardjs:
     runs-on: ubuntu-20.04
     steps:
