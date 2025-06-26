@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - When ACF is not available the plugin does not produce an error
 - GitHub actions run on PHP 7 and 8
+- Kahlan updated to v6 to add PHP 8 support
 
 ## [1.5.5] - 2024-12-12
 
