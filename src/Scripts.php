@@ -105,11 +105,12 @@ class Scripts implements \Dxw\Iguana\Registerable
 				'onRevoke' => "analyticsWithConsent.marketingRevoke"
 			];
 		}
+		$product = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
 		return apply_filters('awc_civic_cookie_control_config', [
 			'apiKey' => trim(get_field('civic_cookie_control_api_key', 'option') ?? ''),
-			'product' => trim(get_field('civic_cookie_control_product_type', 'option') ?? ''),
+			'product' => $product,
 			'closeStyle' => 'button',
-			'initialState' => 'open',
+			'initialState' => substr($product, 0, 3) === 'PRO' ? 'top' : 'open',
 			'text' => [
 				'closeLabel' => 'Save and Close',
 				'acceptSettings' => 'Accept all cookies',
