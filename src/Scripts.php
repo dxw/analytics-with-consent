@@ -61,7 +61,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 		$productType = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
 		$ga4Id = trim(get_field('ga_4_id', 'option') ?? '');
 		if ($apiKey && $productType && $ga4Id) {
-			printf('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=%s"></script>', esc_attr($ga4Id));
+			wp_print_script_tag(['async' => true, 'id' => 'awc_gtag', 'src' => esc_url("https://www.googletagmanager.com/gtag/js?id=".$ga4Id)]);
 		}
 	}
 
@@ -75,7 +75,11 @@ class Scripts implements \Dxw\Iguana\Registerable
 		$productType = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
 		$gtmId = trim(get_field('google_analytics_gtm', 'option') ?? '');
 		if ($apiKey && $productType && $gtmId) {
-			printf("<script>window.dataLayer = window.dataLayer || []; (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','%s')</script>", esc_js($gtmId));
+			$js_tracking_id = "
+window.dataLayer = window.dataLayer || [];
+
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','".esc_js($gtmId)."');";
+			wp_print_inline_script_tag($js_tracking_id);
 		}
 	}
 
