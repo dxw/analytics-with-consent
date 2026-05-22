@@ -75,6 +75,12 @@ var analyticsWithConsent = {
     gtag('consent', 'update', {
       'ad_storage' : 'denied'
     });
+  },
+  thirdPartyMediaEmbedAccept: function () {
+	console.log('Third party media embed cookies accepted');
+  },
+  thirdPartyMediaEmbedRevoke: function () {
+	console.log('Third party media embed cookies revoked');
   }
 }
 var gtag = function () { dataLayer.push(arguments) }

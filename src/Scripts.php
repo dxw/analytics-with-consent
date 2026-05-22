@@ -105,6 +105,16 @@ class Scripts implements \Dxw\Iguana\Registerable
 				'onRevoke' => "analyticsWithConsent.marketingRevoke"
 			];
 		}
+		if (get_field('third_party_media_embed_consent', 'option')) {
+			$optionalCookies[] = [
+				'name' => 'third_party_media_embed',
+				'label' => 'Third Party Media Embed Cookies',
+				'description' => 'Third party media embed cookies help us to improve your experience on our website by remembering your preferences and tailoring content to you.',
+				'cookies' => ['third_party_media_embed'],
+				'onAccept' => "analyticsWithConsent.thirdPartyMediaEmbedAccept",
+				'onRevoke' => "analyticsWithConsent.thirdPartyMediaEmbedRevoke"
+				];
+		}
 		return apply_filters('awc_civic_cookie_control_config', [
 			'apiKey' => trim(get_field('civic_cookie_control_api_key', 'option') ?? ''),
 			'product' => trim(get_field('civic_cookie_control_product_type', 'option') ?? ''),

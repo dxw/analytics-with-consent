@@ -156,6 +156,20 @@ class Options implements \Dxw\Iguana\Registerable
 					'append' => '',
 				],
 				[
+					'key' => 'field_third_party_media_embed_consent',
+					'label' => 'Include third party media embed consent?',
+					'name' => 'third_party_media_embed_consent',
+					'type' => 'true_false',
+					'instructions' => 'If you tick this, then the plugin will replace third party embeds with a placeholder until the user consents to embed cookies.',
+					'required' => 0,
+					'wrapper' => [
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					],
+					'default_value' => ''
+				],
+				[
 					'key' => 'field_5f986ace6a81a',
 					'label' => 'CIVIC Cookie Control API key',
 					'name' => 'civic_cookie_control_api_key',
