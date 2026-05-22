@@ -53,7 +53,7 @@ describe(Embeds::class, function () {
 
 				$result = $this->embeds->embedPlaceholder('<iframe>embed</iframe>', 'https://example.com/video', [], 123);
 
-				expect($result)->toEqual('<div class="awc-embed-placeholder">Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content</div>');
+				expect($result)->toEqual('<div class="awc-embed-placeholder" data-embed="PGlmcmFtZT5lbWJlZDwvaWZyYW1lPg==">Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content</div>');
 			});
 		});
 	});

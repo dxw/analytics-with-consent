@@ -14,7 +14,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 		if (!$this->isThirdPartyMediaEmbedConsentEnabled() || current_user_can('edit_posts')) {
 			return $html;
 		}
-		return $this->placeholderMarkup();
+		return $this->placeholderMarkup($html);
 	}
 
 	private function isThirdPartyMediaEmbedConsentEnabled(): bool
@@ -26,8 +26,9 @@ class Embeds implements \Dxw\Iguana\Registerable
 		return get_field('third_party_media_embed_consent', 'option') === true;
 	}
 
-	private function placeholderMarkup(): string
+	private function placeholderMarkup(string $html): string
 	{
-		return '<div class="awc-embed-placeholder">Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content</div>';
+		$encodedHtml = base64_encode($html);
+		return '<div class="awc-embed-placeholder" data-embed="' . $encodedHtml . '">Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content</div>';
 	}
 }
