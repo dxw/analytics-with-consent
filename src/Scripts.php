@@ -109,7 +109,7 @@ class Scripts implements \Dxw\Iguana\Registerable
 			$optionalCookies[] = [
 				'name' => 'third_party_media_embed',
 				'label' => 'Third Party Media Embed Cookies',
-				'description' => 'Third party media embed cookies help us to improve your experience on our website by remembering your preferences and tailoring content to you.',
+				'description' => 'Some pages of this site include media content hosted on third-party platforms like YouTube. If you enable this setting, this may result in those platforms collecting information about your viewing for analytics and advertising purposes. If you don’t enable this setting, that media content will not be displayed.',
 				'cookies' => ['third_party_media_embed'],
 				'onAccept' => "analyticsWithConsent.thirdPartyMediaEmbedAccept",
 				'onRevoke' => "analyticsWithConsent.thirdPartyMediaEmbedRevoke"
