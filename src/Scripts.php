@@ -105,6 +105,16 @@ class Scripts implements \Dxw\Iguana\Registerable
 				'onRevoke' => "analyticsWithConsent.marketingRevoke"
 			];
 		}
+		if (get_field('third_party_media_embed_consent', 'option')) {
+			$optionalCookies[] = [
+				'name' => 'third_party_media_embed',
+				'label' => 'Third Party Media Embed Cookies',
+				'description' => 'Some pages of this site include media content hosted on third-party platforms like YouTube. If you enable this setting, this may result in those platforms collecting information about your viewing for analytics and advertising purposes. If you don’t enable this setting, that media content will not be displayed.',
+				'cookies' => ['third_party_media_embed'],
+				'onAccept' => "analyticsWithConsent.thirdPartyMediaEmbedAccept",
+				'onRevoke' => "analyticsWithConsent.thirdPartyMediaEmbedRevoke"
+				];
+		}
 		return apply_filters('awc_civic_cookie_control_config', [
 			'apiKey' => trim(get_field('civic_cookie_control_api_key', 'option') ?? ''),
 			'product' => trim(get_field('civic_cookie_control_product_type', 'option') ?? ''),
