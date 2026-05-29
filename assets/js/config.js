@@ -1,9 +1,9 @@
 /* globals cookieControlConfig, CookieControl */
 
 window.getFunctionFromString = function (string) {
-  var scope = window
-  var scopeSplit = string.split('.')
-  for (var i = 0; i < scopeSplit.length - 1; i++) {
+  let scope = window
+  const scopeSplit = string.split('.')
+  for (let i = 0; i < scopeSplit.length - 1; i++) {
     scope = scope[scopeSplit[i]]
 
     if (scope === undefined) return

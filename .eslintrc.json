@@ -1,0 +1,12 @@
+{
+  "extends": "standard",
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "globals": {
+    "cookieControlConfig": "readonly",
+    "CookieControl": "readonly",
+    "cookieControlDefaultAnalytics": "readonly"
+  }
+}
