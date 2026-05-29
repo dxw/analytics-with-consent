@@ -19,12 +19,13 @@ jobs:
           vendor/bin/php-cs-fixer fix --dry-run -v --diff
           vendor/bin/kahlan
           vendor/bin/psalm
-  standardjs:
+  lint:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: '14'
-      - run: yarn install --non-interactive
-      - run: yarn run standard
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
