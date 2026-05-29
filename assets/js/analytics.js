@@ -80,9 +80,13 @@ var analyticsWithConsent = {
     if (typeof window.hydrateAllEmbeds === 'function') {
       window.hydrateAllEmbeds();
     }
+    console.log('Third party media embed cookies accepted');
   },
   thirdPartyMediaEmbedRevoke: function () {
-    window.location.reload();
+    if (typeof window.dehydrateAllEmbeds === 'function') {
+      window.dehydrateAllEmbeds();
+    }
+    console.log('Third party media embed cookies revoked');
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
@@ -104,9 +108,36 @@ if (cookieControlDefaultAnalytics.ga4Id !== '') {
 window.hydrateAllEmbeds = function () {
   const placeholders = document.querySelectorAll('.awc-embed-placeholder')
   placeholders.forEach(el => {
+    const placeholderContent = el.querySelector('.awc-placeholder-content')
+    if (placeholderContent) {
+      placeholderContent.style.display = 'none'
+    }
+
+    let embedWrapper = el.querySelector('.awc-embed-wrapper')
+    if (!embedWrapper) {
+      embedWrapper = document.createElement('div')
+      embedWrapper.className = 'awc-embed-wrapper'
+      el.appendChild(embedWrapper)
+    }
+
     const encoded = el.getAttribute('data-embed')
     if (encoded) {
-      el.innerHTML = atob(encoded)
+      embedWrapper.innerHTML = atob(encoded)
+    }
+  })
+}
+
+window.dehydrateAllEmbeds = function () {
+  const placeholders = document.querySelectorAll('.awc-embed-placeholder')
+  placeholders.forEach(el => {
+    const embedWrapper = el.querySelector('.awc-embed-wrapper')
+    if (embedWrapper) {
+      embedWrapper.remove()
+    }
+
+    const placeholderContent = el.querySelector('.awc-placeholder-content')
+    if (placeholderContent) {
+      placeholderContent.style.display = ''
     }
   })
 }

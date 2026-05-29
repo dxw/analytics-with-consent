@@ -56,10 +56,12 @@ class Embeds implements \Dxw\Iguana\Registerable
 	private function placeholderMarkup(string $html, string $url): string
 	{
 		$encodedHtml = base64_encode($html);
-		$output = '<div class="awc-embed-placeholder" data-embed="' . $encodedHtml . '"><p>Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content.</p>';
+		$output = '<div class="awc-embed-placeholder" data-embed="' . $encodedHtml . '">';
+		$output .= '<div class="awc-placeholder-content"><p>Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content.</p>';
 		if (!empty($url)) {
 			$output .= '<p>You can view the content on the external site here: <a href="' . esc_url($url) . '">' . esc_url($url) . '</a></p>';
 		}
-		return $output . '</div>';
+		$output .= '</div></div>';
+		return $output;
 	}
 }
