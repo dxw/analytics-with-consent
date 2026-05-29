@@ -64,7 +64,9 @@ describe(Embeds::class, function () {
 					allow('is_admin')->toBeCalled()->andReturn(false);
 					expect('esc_url')->not->toBeCalled();
 
-					expect($this->embeds->filterBlock('<iframe>embed</iframe>', ['blockName' => 'core/embed']))->toContain('awc-embed-placeholder');
+					$result = $this->embeds->filterBlock('<iframe>embed</iframe>', ['blockName' => 'core/embed']);
+					expect($result)->toContain('awc-embed-placeholder');
+					expect($result)->toContain('awc-placeholder-content');
 				});
 				it('includes the media URL in the placeholder if provided', function () {
 					allow('function_exists')->toBeCalled()->andReturn(true);
@@ -127,6 +129,7 @@ describe(Embeds::class, function () {
 				$result = $this->embeds->embedPlaceholder('<iframe>embed</iframe>', 'https://example.com/video', [], 123);
 
 				expect($result)->toContain('class="awc-embed-placeholder"');
+				expect($result)->toContain('class="awc-placeholder-content"');
 				expect($result)->toContain('_https://example.com/video_');
 			});
 		});
