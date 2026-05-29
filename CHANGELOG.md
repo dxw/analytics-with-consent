@@ -10,8 +10,8 @@ and this project adheres to
 
 ### Added
 
-- Optional media embed cookie category
-- Media embeds hidden by default if media embed cookie category active
+- Full opt-in/out for third party media embeds (disabled by default, controlled
+  by toggle in settings)
 - ESLint with JS standard style
 
 ### Removed
