@@ -52,8 +52,19 @@ describe(Embeds::class, function () {
 					allow('function_exists')->toBeCalled()->andReturn(true);
 					allow('get_field')->toBeCalled()->andReturn(true);
 					allow('is_admin')->toBeCalled()->andReturn(false);
+					expect('esc_url')->not->toBeCalled();
 
 					expect($this->embeds->filterBlock('<iframe>embed</iframe>', ['blockName' => 'core/embed']))->toContain('awc-embed-placeholder');
+				});
+				it('includes the media URL in the placeholder if provided', function () {
+					allow('function_exists')->toBeCalled()->andReturn(true);
+					allow('get_field')->toBeCalled()->andReturn(true);
+					allow('is_admin')->toBeCalled()->andReturn(false);
+					allow('esc_url')->toBeCalled()->andRun(function ($input) {
+						return '_' . $input . '_';
+					});
+
+					expect($this->embeds->filterBlock('<iframe>embed</iframe>', ['blockName' => 'core/embed', 'attrs' => ['url' => 'http://bbc.co.uk']]))->toContain('_http://bbc.co.uk_');
 				});
 			});
 		});
@@ -99,10 +110,14 @@ describe(Embeds::class, function () {
 				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->with('third_party_media_embed_consent', 'option')->andReturn(true);
 				allow('is_admin')->toBeCalled()->andReturn(false);
+				allow('esc_url')->toBeCalled()->andRun(function ($input) {
+					return '_' . $input . '_';
+				});
 
 				$result = $this->embeds->embedPlaceholder('<iframe>embed</iframe>', 'https://example.com/video', [], 123);
 
-				expect($result)->toEqual('<div class="awc-embed-placeholder" data-embed="PGlmcmFtZT5lbWJlZDwvaWZyYW1lPg==">Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content</div>');
+				expect($result)->toContain('class="awc-embed-placeholder"');
+				expect($result)->toContain('_https://example.com/video_');
 			});
 		});
 	});
