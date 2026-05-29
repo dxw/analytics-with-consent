@@ -15,6 +15,9 @@ class Embeds implements \Dxw\Iguana\Registerable
 		if ($this->disablePlaceholder()) {
 			return $blockContent;
 		}
+		if (str_contains($blockContent, 'awc-embed-placeholder')) {
+			return $blockContent;
+		}
 		if (strpos($block['blockName'], 'core-embed/') === 0 || $block['blockName'] === 'core/embed') {
 			$url = '';
 			if (array_key_exists('attrs', $block) && array_key_exists('url', $block['attrs'])) {
