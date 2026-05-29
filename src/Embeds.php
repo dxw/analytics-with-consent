@@ -12,7 +12,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 
 	public function filterBlock(string $blockContent, array $block): string
 	{
-		if (!$this->isThirdPartyMediaEmbedConsentEnabled() || is_admin()) {
+		if ($this->disablePlaceholder()) {
 			return $blockContent;
 		}
 		if (strpos($block['blockName'], 'core-embed/') === 0 || $block['blockName'] === 'core/embed') {
@@ -27,13 +27,18 @@ class Embeds implements \Dxw\Iguana\Registerable
 
 	public function embedPlaceholder(string $html, string $url): string
 	{
-		if (!$this->isThirdPartyMediaEmbedConsentEnabled() || is_admin()) {
+		if ($this->disablePlaceholder()) {
 			return $html;
 		}
 		if (str_contains($html, 'awc-embed-placeholder')) {
 			return $html;
 		}
 		return $this->placeholderMarkup($html, $url);
+	}
+
+	private function disablePlaceholder(): bool
+	{
+		return(!$this->isThirdPartyMediaEmbedConsentEnabled() || is_admin());
 	}
 
 	private function isThirdPartyMediaEmbedConsentEnabled(): bool
