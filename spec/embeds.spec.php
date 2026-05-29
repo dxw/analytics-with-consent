@@ -48,6 +48,16 @@ describe(Embeds::class, function () {
 				});
 			});
 			context('and we are in the front end', function () {
+				context('but the placeholder is already there', function () {
+					it('returns the existing html', function () {
+						allow('function_exists')->toBeCalled()->andReturn(true);
+						allow('get_field')->toBeCalled()->andReturn(true);
+						allow('is_admin')->toBeCalled()->andReturn(false);
+						expect('esc_url')->not->toBeCalled();
+
+						expect($this->embeds->filterBlock('<div class="awc-embed-placeholder">This is some text</div>', ['blockName' => 'core/embed']))->toEqual('<div class="awc-embed-placeholder">This is some text</div>');
+					});
+				});
 				it('returns the placeholder', function () {
 					allow('function_exists')->toBeCalled()->andReturn(true);
 					allow('get_field')->toBeCalled()->andReturn(true);
