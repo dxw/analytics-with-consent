@@ -11,7 +11,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 
 	public function embedPlaceholder(string $html, string $url, array $attr, int $post_ID): string
 	{
-		if (!$this->isThirdPartyMediaEmbedConsentEnabled() || current_user_can('edit_posts')) {
+		if (!$this->isThirdPartyMediaEmbedConsentEnabled() || is_admin()) {
 			return $html;
 		}
 		return $this->placeholderMarkup($html);

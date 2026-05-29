@@ -25,7 +25,6 @@ describe(Embeds::class, function () {
 			it('returns the original embed html', function () {
 				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->with('third_party_media_embed_consent', 'option')->andReturn(false);
-				allow('current_user_can')->toBeCalled()->andReturn(false);
 
 				$result = $this->embeds->embedPlaceholder('<iframe>embed</iframe>', 'https://example.com/video', [], 123);
 
@@ -33,11 +32,11 @@ describe(Embeds::class, function () {
 			});
 		});
 
-		context('current user can edit posts', function () {
+		context('inside admin interface', function () {
 			it('returns the original embed html', function () {
 				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->with('third_party_media_embed_consent', 'option')->andReturn(true);
-				allow('current_user_can')->toBeCalled()->with('edit_posts')->andReturn(true);
+				allow('is_admin')->toBeCalled()->andReturn(true);
 
 				$result = $this->embeds->embedPlaceholder('<iframe>embed</iframe>', 'https://example.com/video', [], 123);
 
@@ -45,11 +44,11 @@ describe(Embeds::class, function () {
 			});
 		});
 
-		context('third party embed consent setting is enabled and user cannot edit posts', function () {
+		context('third party embed consent setting is enabled and not within the admin panel', function () {
 			it('returns the placeholder html', function () {
 				allow('function_exists')->toBeCalled()->andReturn(true);
 				allow('get_field')->toBeCalled()->with('third_party_media_embed_consent', 'option')->andReturn(true);
-				allow('current_user_can')->toBeCalled()->with('edit_posts')->andReturn(false);
+				allow('is_admin')->toBeCalled()->andReturn(false);
 
 				$result = $this->embeds->embedPlaceholder('<iframe>embed</iframe>', 'https://example.com/video', [], 123);
 
