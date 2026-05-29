@@ -77,10 +77,12 @@ var analyticsWithConsent = {
     });
   },
   thirdPartyMediaEmbedAccept: function () {
-	console.log('Third party media embed cookies accepted');
+    if (typeof window.hydrateAllEmbeds === 'function') {
+      window.hydrateAllEmbeds();
+    }
   },
   thirdPartyMediaEmbedRevoke: function () {
-	console.log('Third party media embed cookies revoked');
+    window.location.reload();
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
@@ -99,3 +101,12 @@ if (cookieControlDefaultAnalytics.ga4Id !== '') {
   gtag('js', new Date())
   gtag('config', cookieControlDefaultAnalytics.ga4Id)
 }
+window.hydrateAllEmbeds = function() {
+    const placeholders = document.querySelectorAll('.awc-embed-placeholder');
+    placeholders.forEach(el => {
+        const encoded = el.getAttribute('data-embed');
+        if (encoded) {
+            el.innerHTML = atob(encoded);
+        }
+    });
+};
