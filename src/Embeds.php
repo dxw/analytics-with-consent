@@ -15,6 +15,9 @@ class Embeds implements \Dxw\Iguana\Registerable
 		if ($this->disablePlaceholder()) {
 			return $blockContent;
 		}
+		if (str_contains($blockContent, 'awc-embed-placeholder')) {
+			return $blockContent;
+		}
 		if (strpos($block['blockName'], 'core-embed/') === 0 || $block['blockName'] === 'core/embed') {
 			$url = '';
 			if (array_key_exists('attrs', $block) && array_key_exists('url', $block['attrs'])) {
@@ -53,10 +56,12 @@ class Embeds implements \Dxw\Iguana\Registerable
 	private function placeholderMarkup(string $html, string $url): string
 	{
 		$encodedHtml = base64_encode($html);
-		$output = '<div class="awc-embed-placeholder" data-embed="' . $encodedHtml . '"><p>Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content.</p>';
+		$output = '<div class="awc-embed-placeholder" data-embed="' . $encodedHtml . '">';
+		$output .= '<div class="awc-placeholder-content"><p>Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content.</p>';
 		if (!empty($url)) {
 			$output .= '<p>You can view the content on the external site here: <a href="' . esc_url($url) . '">' . esc_url($url) . '</a></p>';
 		}
-		return $output . '</div>';
+		$output .= '</div></div>';
+		return $output;
 	}
 }

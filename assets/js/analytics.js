@@ -42,8 +42,8 @@ var analyticsWithConsent = {
         r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
         a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-	  }
-	  // Hotjar
+    }
+    // Hotjar
   },
   gaRevoke: function () {
     // Disable Google Analytics (UA)
@@ -77,10 +77,16 @@ var analyticsWithConsent = {
     });
   },
   thirdPartyMediaEmbedAccept: function () {
-	console.log('Third party media embed cookies accepted');
+    if (typeof window.hydrateAllEmbeds === 'function') {
+      window.hydrateAllEmbeds();
+    }
+    console.log('Third party media embed cookies accepted');
   },
   thirdPartyMediaEmbedRevoke: function () {
-	console.log('Third party media embed cookies revoked');
+    if (typeof window.dehydrateAllEmbeds === 'function') {
+      window.dehydrateAllEmbeds();
+    }
+    console.log('Third party media embed cookies revoked');
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
@@ -98,4 +104,40 @@ gtag('consent', 'default', {
 if (cookieControlDefaultAnalytics.ga4Id !== '') {
   gtag('js', new Date())
   gtag('config', cookieControlDefaultAnalytics.ga4Id)
+}
+window.hydrateAllEmbeds = function () {
+  const placeholders = document.querySelectorAll('.awc-embed-placeholder')
+  placeholders.forEach(el => {
+    const placeholderContent = el.querySelector('.awc-placeholder-content')
+    if (placeholderContent) {
+      placeholderContent.style.display = 'none'
+    }
+
+    let embedWrapper = el.querySelector('.awc-embed-wrapper')
+    if (!embedWrapper) {
+      embedWrapper = document.createElement('div')
+      embedWrapper.className = 'awc-embed-wrapper'
+      el.appendChild(embedWrapper)
+    }
+
+    const encoded = el.getAttribute('data-embed')
+    if (encoded) {
+      embedWrapper.innerHTML = atob(encoded)
+    }
+  })
+}
+
+window.dehydrateAllEmbeds = function () {
+  const placeholders = document.querySelectorAll('.awc-embed-placeholder')
+  placeholders.forEach(el => {
+    const embedWrapper = el.querySelector('.awc-embed-wrapper')
+    if (embedWrapper) {
+      embedWrapper.remove()
+    }
+
+    const placeholderContent = el.querySelector('.awc-placeholder-content')
+    if (placeholderContent) {
+      placeholderContent.style.display = ''
+    }
+  })
 }
