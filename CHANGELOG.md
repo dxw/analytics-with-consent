@@ -12,6 +12,10 @@ and this project adheres to
 
 - Check for value of 'blockName' before passing to strpos
 
+### Added
+
+- More information and cookie popup link to blocked embed message
+
 ## [1.6.0] - 2026-06-02
 
 ### Added

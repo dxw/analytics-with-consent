@@ -58,6 +58,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 		$encodedHtml = base64_encode($html);
 		$output = '<div class="awc-embed-placeholder" data-embed="' . $encodedHtml . '">';
 		$output .= '<div class="awc-placeholder-content"><p>Third party media content is blocked to comply with your cookie consent choices. Please enable third party media embed cookies to view this content.</p>';
+		$output .= '<p>To do this, <a href="#" onclick="analyticsWithConsent.showCookiePopup(); return false;">open the cookie control panel</a> and select the Third Party Media Embed Cookies option.</p>';
 		if (!empty($url)) {
 			$output .= '<p>You can view the content on the external site here: <a href="' . esc_url($url) . '">' . esc_url($url) . '</a></p>';
 		}

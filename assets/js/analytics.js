@@ -87,6 +87,11 @@ var analyticsWithConsent = {
       window.dehydrateAllEmbeds();
     }
     console.log('Third party media embed cookies revoked');
+  },
+  showCookiePopup: function () {
+    if (typeof CookieControl !== 'undefined' && typeof CookieControl.open === 'function') {
+      CookieControl.open()
+    }
   }
 }
 var gtag = function () { dataLayer.push(arguments) }
