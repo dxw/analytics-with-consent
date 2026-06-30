@@ -201,12 +201,20 @@ describe(Scripts::class, function () {
 				allow('esc_attr')->toBeCalled()->andRun(function ($input) {
 					return $input;
 				});
+				allow('wp_print_script_tag')->toBeCalled()->andRun(function ($attributes) {
+					return $attributes;
+				});
+				allow('esc_url')->toBeCalled()->andRun(function ($input) {
+					return $input;
+				});
 
-				ob_start();
+				expect('wp_print_script_tag')->toBeCalled()->with([
+					'async' => true,
+					'id' => 'awc_gtag',
+					'src' => 'https://www.googletagmanager.com/gtag/js?id=123456',
+				]);
+
 				$this->scripts->addGA4();
-				$result = ob_get_clean();
-
-				expect($result)->toEqual('<script async id="awc_gtag" src="https://www.googletagmanager.com/gtag/js?id=123456"></script>');
 			});
 		});
 	});
@@ -262,6 +270,9 @@ describe(Scripts::class, function () {
 				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
 				allow('esc_js')->toBeCalled()->andRun(function ($input) {
 					return $input;
+				});
+				allow('wp_print_inline_script_tag')->toBeCalled()->andRun(function ($data) {
+					echo $data;
 				});
 
 				ob_start();
