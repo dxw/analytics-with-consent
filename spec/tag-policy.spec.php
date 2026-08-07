@@ -189,6 +189,12 @@ describe(TagPolicy::class, function () {
 						echo $data;
 					});
 
+					allow('_doing_it_wrong')->toBeCalled();
+					expect('_doing_it_wrong')->toBeCalled();
+
+					allow('error_log')->toBeCalled();
+					expect('error_log')->toBeCalled();
+
 					ob_start();
 					$this->class->addPolicy();
 					$result = ob_get_clean();

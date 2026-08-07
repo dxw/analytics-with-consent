@@ -55,9 +55,15 @@ class TagPolicy implements \Dxw\Iguana\Registerable
 			return [];
 		}
 
-		return array_values(array_filter($listConfig, function ($item) {
+		$sanitizedConfig = array_values(array_filter($listConfig, function ($item) {
 			return is_string($item) && $item !== '';
 		}));
+
+		if (count($sanitizedConfig) !== count($listConfig)) {
+			$this->logMalformedPolicy();
+		}
+
+		return $sanitizedConfig;
 	}
 
 	private function pushEncodedList(string $key, mixed $listConfig): string
@@ -90,5 +96,16 @@ class TagPolicy implements \Dxw\Iguana\Registerable
 		}
 
 		return true;
+	}
+
+	private function logMalformedPolicy(): void
+	{
+		_doing_it_wrong(
+			'awc_gtm_tag_policy',
+			'The awc_gtm_tag_policy filter must return an array of non-empty strings for "blocklist" and "allowlist". Malformed entries have been ignored.',
+			''
+		);
+
+		error_log('[Plugin: Analytics with Consent]: The awc_gtm_tag_policy filter must return an array of non-empty strings for "blocklist" and "allowlist". Malformed entries have been ignored.');
 	}
 }
