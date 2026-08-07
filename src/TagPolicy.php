@@ -43,25 +43,28 @@ class TagPolicy implements \Dxw\Iguana\Registerable
 			return;
 		}
 
-		$dataLayerPush = 'window.dataLayer = window.dataLayer || [];';
-
-		$encodedAllowlist = wp_json_encode($allowlistConfig);
-
-		if (!in_array($encodedAllowlist, [false, 'null'], true)) {
-			$dataLayerPush .= "window.dataLayer.push({'gtm.allowlist': " . $encodedAllowlist . "});";
-		}
-
-		$encodedBlocklist = wp_json_encode($blocklistConfig);
-
-		if (!in_array($encodedBlocklist, [false, 'null'], true)) {
-			$dataLayerPush .= "window.dataLayer.push({'gtm.blocklist': " . $encodedBlocklist . "});";
-		}
-
 		wp_add_inline_script(
 			'civicCookieControlDefaultAnalytics',
-			$dataLayerPush,
+			'window.dataLayer = window.dataLayer || [];'
+				. $this->pushEncodedList('gtm.allowlist', $allowlistConfig)
+				. $this->pushEncodedList('gtm.blocklist', $blocklistConfig),
 			'before',
 		);
+	}
+
+	private function pushEncodedList(string $key, mixed $listConfig): string
+	{
+		if (empty($listConfig)) {
+			return '';
+		}
+
+		$encodedList = wp_json_encode($listConfig);
+
+		if ($encodedList === false) {
+			return '';
+		}
+
+		return "window.dataLayer.push({'{$key}': {$encodedList}});";
 	}
 
 	private function isGtmConfigured(): bool
