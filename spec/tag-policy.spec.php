@@ -168,6 +168,35 @@ describe(TagPolicy::class, function () {
 					$this->class->addPolicy();
 				});
 			});
+
+			context('and a blocklist/allowlist is misconfigured in a theme/plugin', function () {
+				it('removes the invalid list items whilst maintaining valid tags', function () {
+
+					allow('apply_filters')->toBeCalled()->andReturn([
+
+						// Bad: List containing empty values
+						'blocklist' => ['html', '', null, 'nice_tag'],
+
+						// Bad: List without an array of tags
+						'allowlist' => 'img',
+					]);
+
+					allow('wp_json_encode')->toBeCalled()->andRun(function ($data) {
+						return json_encode($data);
+					});
+
+					allow('wp_add_inline_script')->toBeCalled()->andRun(function ($handle, $data) {
+						echo $data;
+					});
+
+					ob_start();
+					$this->class->addPolicy();
+					$result = ob_get_clean();
+
+					expect($result)->toContain("'gtm.blocklist': [\"html\",\"nice_tag\"]");
+					expect($result)->not->toContain("gtm.allowlist");
+				});
+			});
 		});
 	});
 });

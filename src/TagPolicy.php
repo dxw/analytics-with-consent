@@ -33,11 +33,8 @@ class TagPolicy implements \Dxw\Iguana\Registerable
 		/** @var array{allowlist?: mixed, blocklist?: mixed} $policy **/
 		$policy = apply_filters('awc_gtm_tag_policy', []);
 
-		/** @var mixed $allowlistConfig **/
-		$allowlistConfig = $policy['allowlist'] ?? null;
-
-		/** @var mixed $blocklistConfig **/
-		$blocklistConfig = $policy['blocklist'] ?? null;
+		$allowlistConfig = $this->sanitizeConfig($policy['allowlist'] ?? null);
+		$blocklistConfig = $this->sanitizeConfig($policy['blocklist'] ?? null);
 
 		if (!$allowlistConfig && !$blocklistConfig) {
 			return;
@@ -50,6 +47,17 @@ class TagPolicy implements \Dxw\Iguana\Registerable
 				. $this->pushEncodedList('gtm.blocklist', $blocklistConfig),
 			'before',
 		);
+	}
+
+	private function sanitizeConfig(mixed $listConfig): array
+	{
+		if (!is_array($listConfig)) {
+			return [];
+		}
+
+		return array_values(array_filter($listConfig, function ($item) {
+			return is_string($item) && $item !== '';
+		}));
 	}
 
 	private function pushEncodedList(string $key, mixed $listConfig): string
