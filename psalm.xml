@@ -5,6 +5,7 @@
     <ignoreFiles>
       <directory name="vendor"/>
       <file name="vendor.phar"/>
+      <file name="src/di.php"/>
     </ignoreFiles>
   </projectFiles>
   <issueHandlers>
