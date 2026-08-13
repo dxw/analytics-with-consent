@@ -4,6 +4,9 @@ namespace AnalyticsWithConsent;
 
 class Options implements \Dxw\Iguana\Registerable
 {
+	/**
+	 * @psalm-suppress HookNotFound
+	 */
 	public function register(): void
 	{
 		add_action('acf/init', [$this, 'acfInit']);

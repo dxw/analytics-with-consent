@@ -28,7 +28,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 		return $blockContent;
 	}
 
-	public function embedPlaceholder(string $html, string $url): string
+	public function embedPlaceholder(string $html, string $url, array $attr, int $postId): string
 	{
 		if ($this->disablePlaceholder()) {
 			return $html;
@@ -41,7 +41,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 
 	private function disablePlaceholder(): bool
 	{
-		return(!$this->isThirdPartyMediaEmbedConsentEnabled() || is_admin());
+		return (!$this->isThirdPartyMediaEmbedConsentEnabled() || is_admin());
 	}
 
 	private function isThirdPartyMediaEmbedConsentEnabled(): bool

@@ -5,6 +5,7 @@
     <ignoreFiles>
       <directory name="vendor"/>
       <file name="vendor.phar"/>
+      <file name="src/di.php"/>
     </ignoreFiles>
   </projectFiles>
   <issueHandlers>
@@ -19,4 +20,7 @@
       </errorLevel>
     </UndefinedGlobalVariable>
   </issueHandlers>
+  <plugins>
+    <pluginClass class="PsalmWordPress\Plugin" />
+  </plugins>
 </psalm>

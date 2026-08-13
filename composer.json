@@ -5,7 +5,7 @@
     "license": "MIT",
     "config": {
       "platform": {
-        "php": "7.4"
+        "php": "8.2"
       }
     },
     "autoload": {
@@ -20,10 +20,11 @@
         "dxw/phar-install": "^1.1",
         "dxw/php-cs-fixer-config": "^2.0",
         "kahlan/kahlan": "^6",
-        "vimeo/psalm": "^4.29"
+        "vimeo/psalm": "^5",
+        "humanmade/psalm-plugin-wordpress": "^3"
     },
     "require": {
-        "php": "^7.4",
+        "php": "^8.2",
         "dxw/iguana": "^1.3.2"
     }
 }

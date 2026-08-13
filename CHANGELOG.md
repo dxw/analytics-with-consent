@@ -8,6 +8,10 @@ and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Allow themes and plugins to restrict Google Tag Manager's tag deployment, via a blocklist and/or an allowlist
+
 ### Changed
 
 - Replace PHP print functions with WordPress functions
