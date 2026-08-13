@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+## [1.7.0] - 2026-08-13
+
 ### Added
 
 - Allow themes and plugins to restrict Google Tag Manager's tag deployment, via a blocklist and/or an allowlist
