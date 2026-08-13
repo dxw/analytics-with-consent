@@ -13,9 +13,9 @@
  * Plugin URI: https://github.com/dxw/analytics-with-consent
  * Description: Google Analytics + CIVIC Cookie Control
  * Author: dxw
- * Version: 1.6.1
+ * Version: 1.7.0
  * Network: True
  */
 
-$registrar = require __DIR__.'/src/load.php';
+$registrar = require __DIR__ . '/src/load.php';
 $registrar->register();
