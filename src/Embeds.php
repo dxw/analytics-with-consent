@@ -28,7 +28,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 		return $blockContent;
 	}
 
-	public function embedPlaceholder(string $html, string $url, array $attr, int $postId): string
+	public function embedPlaceholder(string $html, string $url, array $attr, int|null $postId): string
 	{
 		if ($this->disablePlaceholder()) {
 			return $html;
