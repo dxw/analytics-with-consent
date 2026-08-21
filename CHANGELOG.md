@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+- Fix fatal error on video embed when post ID not available
+
 ## [1.7.0] - 2026-08-13
 
 ### Added
