@@ -25,6 +25,6 @@
     },
     "require": {
         "php": "^8.2",
-        "dxw/iguana": "^1.3.2"
+        "dxw/iguana": "^1.4"
     }
 }
