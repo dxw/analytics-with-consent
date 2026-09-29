@@ -8,6 +8,13 @@ and this project adheres to
 
 ## Unreleased
 
+## [1.7.2] - 2026-09-29
+
+### Changed
+
+- Composer and NPM updates
+
+
 ## [1.7.1] - 2026-08-21
 
 ### Fixed
