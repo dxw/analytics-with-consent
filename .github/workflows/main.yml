@@ -4,10 +4,10 @@ on: push
 
 jobs:
   lint-and-test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.2']
+        php-versions: ['8.3', '8.5']
     steps:
       - uses: actions/checkout@v7
       - name: Setup PHP
@@ -20,7 +20,7 @@ jobs:
           vendor/bin/kahlan
           vendor/bin/psalm
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

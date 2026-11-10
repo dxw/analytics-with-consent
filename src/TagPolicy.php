@@ -2,8 +2,10 @@
 
 namespace AnalyticsWithConsent;
 
-class TagPolicy implements \Dxw\Iguana\Registerable
+/** @api */
+final class TagPolicy implements \Dxw\Iguana\Registerable
 {
+	#[\Override]
 	public function register(): void
 	{
 		add_action('wp_enqueue_scripts', [$this, 'addPolicy'], 10, 0);

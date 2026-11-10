@@ -2,8 +2,10 @@
 
 namespace AnalyticsWithConsent;
 
-class Embeds implements \Dxw\Iguana\Registerable
+/** @api */
+final class Embeds implements \Dxw\Iguana\Registerable
 {
+	#[\Override]
 	public function register(): void
 	{
 		add_filter('embed_oembed_html', [$this, 'embedPlaceholder'], 10, 4);
@@ -28,7 +30,7 @@ class Embeds implements \Dxw\Iguana\Registerable
 		return $blockContent;
 	}
 
-	public function embedPlaceholder(string $html, string $url, array $attr, int|null $postId): string
+	public function embedPlaceholder(string $html, string $url, array $_attr, int|null $_postId): string
 	{
 		if ($this->disablePlaceholder()) {
 			return $html;

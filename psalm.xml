@@ -13,12 +13,12 @@
     <UndefinedFunction errorLevel="suppress"/>
     <UndefinedConstant errorLevel="suppress"/>
     <UndefinedClass errorLevel="suppress"/>
-    <!-- Suppress the complaint about $registrar just in this file -->
-    <UndefinedGlobalVariable>
+    <!-- Suppress upstream complaints about docblocks -->
+    <InvalidDocblock>
       <errorLevel type="suppress">
-        <file name="src/di.php"/>
+        <directory name="vendor"/>
       </errorLevel>
-    </UndefinedGlobalVariable>
+    </InvalidDocblock>
   </issueHandlers>
   <plugins>
     <pluginClass class="PsalmWordPress\Plugin" />
