@@ -8,6 +8,12 @@ and this project adheres to
 
 ## Unreleased
 
+## [1.7.3] - 2026-11-10
+
+### Changed
+
+- CI workflows no use php 8.3 and 8.5
+
 ## [1.7.2] - 2026-09-29
 
 ### Changed
