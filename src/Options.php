@@ -2,11 +2,13 @@
 
 namespace AnalyticsWithConsent;
 
-class Options implements \Dxw\Iguana\Registerable
+/** @api */
+final class Options implements \Dxw\Iguana\Registerable
 {
 	/**
 	 * @psalm-suppress HookNotFound
 	 */
+	#[\Override]
 	public function register(): void
 	{
 		add_action('acf/init', [$this, 'acfInit']);
@@ -21,11 +23,11 @@ class Options implements \Dxw\Iguana\Registerable
 	/**
 	 * @psalm-param boolean | string $valid
 	 * @psalm-param mixed $value
-	 * @psalm-param array<mixed> $field
-	 * @psalm-param string $input_name
+	 * @psalm-param array<mixed> $_field
+	 * @psalm-param string $_input_name
 	 * @return boolean | string
 	 */
-	public function validateTrimmedText($valid, $value, $field, $input_name)
+	public function validateTrimmedText($valid, $value, $_field, $_input_name)
 	{
 		if ($valid !== true) {
 			return $valid;
