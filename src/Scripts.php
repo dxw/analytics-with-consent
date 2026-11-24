@@ -12,6 +12,7 @@ final class Scripts implements \Dxw\Iguana\Registerable
 		add_action('wp_enqueue_scripts', [$this, 'enqueueStyles'], 10, 0);
 		add_action('wp_head', [$this, 'addGA4'], 10, 0);
 		add_action('wp_head', [$this, 'addGTM'], 10, 0);
+		add_action('wp_head', [$this, 'addClarity'], 10, 0);
 		add_filter('plugin_action_links_analytics-with-consent/index.php', [$this, 'addActionLinks']);
 	}
 
@@ -89,6 +90,28 @@ final class Scripts implements \Dxw\Iguana\Registerable
 				(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','" . esc_js($gtmId) . "');";
 
 			wp_print_inline_script_tag($gtmTrackingScript);
+		}
+	}
+
+	public function addClarity(): void
+	{
+		if (!function_exists('get_field')) {
+			return;
+		}
+
+		$apiKey = trim(get_field('civic_cookie_control_api_key', 'option') ?? '');
+		$productType = trim(get_field('civic_cookie_control_product_type', 'option') ?? '');
+		$clarityId = trim(get_field('ms_clarity', 'option') ?? '');
+
+		if ($apiKey && $productType && $clarityId) {
+			$clarityTrackingScript = '
+			window.dataLayer = window.dataLayer || [];
+			
+			(function(c,l,a,r,i,t,y){ c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)}; t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i; y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "' . esc_js($clarityId) . '");
+			
+			window.clarity("consentv2",{ ad_Storage: "denied", analytics_Storage: "granted" });';
+
+			wp_print_inline_script_tag($clarityTrackingScript);
 		}
 	}
 

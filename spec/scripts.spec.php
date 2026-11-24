@@ -14,11 +14,12 @@ describe(Scripts::class, function () {
 	describe('->register()', function () {
 		it('adds actions', function () {
 			allow('add_action')->toBeCalled();
-			expect('add_action')->toBeCalled()->times(4);
+			expect('add_action')->toBeCalled()->times(5);
 			expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueScripts']);
 			expect('add_action')->toBeCalled()->with('wp_enqueue_scripts', [$this->scripts, 'enqueueStyles']);
 			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGA4']);
 			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addGTM']);
+			expect('add_action')->toBeCalled()->with('wp_head', [$this->scripts, 'addClarity']);
 			allow('add_filter')->toBeCalled();
 			expect('add_filter')->toBeCalled()->with('plugin_action_links_analytics-with-consent/index.php', [$this->scripts, 'addActionLinks']);
 
@@ -280,6 +281,71 @@ describe(Scripts::class, function () {
 				$result = ob_get_clean();
 
 				expect($result)->toContain("window,document,'script','dataLayer','123456'");
+			});
+		});
+	});
+
+	describe('->addClarity()', function () {
+		context('ACF is not available', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(false);
+				expect('get_field')->not->toBeCalled();
+
+				$this->scripts->addClarity();
+			});
+		});
+		context('API Key is not set', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
+				allow('get_field')->toBeCalled()->andReturn(null, 'a_product_type', 'a_clarity_id');
+
+				ob_start();
+				$this->scripts->addClarity();
+				$result = ob_get_clean();
+
+				expect($result)->toEqual('');
+			});
+		});
+		context('product type is not set', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
+				allow('get_field')->toBeCalled()->andReturn('an_api_key', null, 'a_clarity_id');
+
+				ob_start();
+				$this->scripts->addClarity();
+				$result = ob_get_clean();
+
+				expect($result)->toEqual('');
+			});
+		});
+		context('Clarity ID is not set', function () {
+			it('does nothing', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
+				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', null);
+
+				ob_start();
+				$this->scripts->addClarity();
+				$result = ob_get_clean();
+
+				expect($result)->toEqual('');
+			});
+		});
+		context('API Key, product type and Clarity ID are set', function () {
+			it('outputs the Clarity script tag', function () {
+				allow('function_exists')->toBeCalled()->andReturn(true);
+				allow('get_field')->toBeCalled()->andReturn('an_api_key', 'a_product_type', '123456');
+				allow('esc_js')->toBeCalled()->andRun(function ($input) {
+					return $input;
+				});
+				allow('wp_print_inline_script_tag')->toBeCalled()->andRun(function ($data) {
+					echo $data;
+				});
+
+				ob_start();
+				$this->scripts->addClarity();
+				$result = ob_get_clean();
+
+				expect($result)->toContain('window, document, "clarity", "script", "123456"');
 			});
 		});
 	});
