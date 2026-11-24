@@ -20,6 +20,7 @@ describe(Options::class, function () {
 			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=google_analytics_id', [$this->options, 'validateTrimmedText'], 10, 4);
 			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=ga_4_id', [$this->options, 'validateTrimmedText'], 10, 4);
 			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=google_analytics_gtm', [$this->options, 'validateTrimmedText'], 10, 4);
+			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=ms_clarity', [$this->options, 'validateTrimmedText'], 10, 4);
 			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=gtm_marketing_cookies', [$this->options, 'validateTrimmedText'], 10, 4);
 			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=civic_cookie_control_api_key', [$this->options, 'validateTrimmedText'], 10, 4);
 			expect('add_filter')->toBeCalled()->with('acf/validate_value/name=hotjar_id', [$this->options, 'validateTrimmedText'], 10, 4);

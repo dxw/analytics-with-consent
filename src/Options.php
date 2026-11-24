@@ -15,6 +15,7 @@ final class Options implements \Dxw\Iguana\Registerable
 		add_filter('acf/validate_value/name=google_analytics_id', [$this, 'validateTrimmedText'], 10, 4);
 		add_filter('acf/validate_value/name=ga_4_id', [$this, 'validateTrimmedText'], 10, 4);
 		add_filter('acf/validate_value/name=google_analytics_gtm', [$this, 'validateTrimmedText'], 10, 4);
+		add_filter('acf/validate_value/name=ms_clarity', [$this, 'validateTrimmedText'], 10, 4);
 		add_filter('acf/validate_value/name=gtm_marketing_cookies', [$this, 'validateTrimmedText'], 10, 4);
 		add_filter('acf/validate_value/name=civic_cookie_control_api_key', [$this, 'validateTrimmedText'], 10, 4);
 		add_filter('acf/validate_value/name=hotjar_id', [$this, 'validateTrimmedText'], 10, 4);
@@ -107,6 +108,25 @@ final class Options implements \Dxw\Iguana\Registerable
 					],
 					'default_value' => '',
 					'placeholder' => 'GTM-',
+					'prepend' => '',
+					'append' => '',
+					'maxlength' => '',
+				],
+				[
+					'key' => 'field_ms_clarity',
+					'label' => 'Microsoft Clarity',
+					'name' => 'ms_clarity',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					],
+					'default_value' => '',
+					'placeholder' => '',
 					'prepend' => '',
 					'append' => '',
 					'maxlength' => '',
