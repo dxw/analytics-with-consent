@@ -8,6 +8,10 @@ and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Added the option to use Microsoft Clarity analytics
+
 ## [1.7.3] - 2026-11-10
 
 ### Changed
